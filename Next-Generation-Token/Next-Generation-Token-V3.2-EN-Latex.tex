@@ -1,0 +1,2106 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------
+% PACKAGES
+% ---------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{titlesec}
+
+\geometry{margin=1in}
+
+% ---------------------------------------------------------
+% HYPERREF SETTINGS
+% ---------------------------------------------------------
+\hypersetup{
+    colorlinks = true,
+    linkcolor = blue,
+    citecolor = blue,
+    urlcolor = blue,
+    pdftitle = {Next-Generation Token (NGT) v3.2},
+    pdfauthor = {Your Name},
+}
+
+% ---------------------------------------------------------
+% THEOREM / AXIOM ENVIRONMENTS
+% ---------------------------------------------------------
+\newtheorem{definition}{Definition}[section]
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+
+% ---------------------------------------------------------
+% TITLE
+% ---------------------------------------------------------
+\title{
+    \textbf{Next-Generation Token (NGT) v3.2:}\\
+    \large Formal Structural Manifold, Metric Geometry, and Evolution Operator
+}
+
+\author{
+    Your Name\thanks{Corresponding author: email@address.com} \\
+    Flexionization Research Program
+}
+
+\date{2025}
+
+% ---------------------------------------------------------
+% DOCUMENT START
+% ---------------------------------------------------------
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Next–Generation Token (NGT) v3.2 introduces a fully formal structural
+    framework describing the intrinsic mathematical organism underlying the
+    NGT system. Unlike economic or probabilistic token models, NGT v3.2 is
+    defined as a four–dimensional Riemannian manifold whose geometry,
+    curvature, temporal behavior, and evolution are determined entirely by
+    its internal state. 
+    
+    The theory formalizes (i) the structural manifold
+    $\mathbb{M}_t$, (ii) a state–dependent metric tensor $g_t$ and curvature
+    field $R_t$, (iii) a deterministic evolution operator $I_t$, (iv) a
+    viability field governing geometric collapse, (v) a non–invertible
+    projection operator $\pi$ mapping structural states to an external
+    economic observation space, and (vi) a rigorous reconstruction framework
+    providing unique recovery of internal trajectories from projection data.
+    All dynamics are autonomous, closed, and independent of any external
+    economic input.
+    
+    Within this formalism, NGT behaves as a structural organism possessing
+    irreversible memory, monotonic viability decay, intrinsic temporal flow,
+    and a universal regime sequence (ACC $\rightarrow$ DEV $\rightarrow$ REL).
+    Collapse is characterized as a metric–curvature singularity at which
+    structural time terminates and no further evolution is defined. 
+    The projection layer, including all observable economic behavior, is a
+    lower–dimensional epiphenomenon without causal influence on structure.
+    
+    NGT v3.2 establishes the first mathematically rigorous specification of
+    a token as a self–contained geometric system. The framework provides a
+    complete foundation for simulation, analysis, reconstruction, and
+    integration within the Flexion structural sciences.
+\end{abstract}    
+
+\tableofcontents
+
+% ---------------------------------------------------------
+% 0. INTRODUCTION
+% ---------------------------------------------------------
+\section{Introduction}
+
+Next–Generation Token (NGT) v3.2 is a formal structural theory defining a
+token not as an economic instrument, but as a mathematical organism
+governed by intrinsic geometric laws. Classical token models rely on
+external supply mechanics, probabilistic behavior, incentive design, or
+market–driven parameters. In contrast, NGT v3.2 treats the token as a
+self–contained structure evolving within a four–dimensional Riemannian
+manifold whose geometry, temporal flow, viability, and collapse are
+entirely determined by the internal state of the organism.
+
+The NGT framework arises from Flexion structural science, where complex
+systems are described by deviation, tension, memory, and stability
+fields. In this context, the NGT organism is a minimal yet complete
+structural entity: it possesses an intrinsic metric, accumulates
+irreversible memory, consumes viability over time, follows deterministic
+evolution, and projects a lower–dimensional economic appearance into
+external space. None of these processes depend on external markets,
+blockchain state, governance actions, or probabilistic signals. The
+organism is autonomous by axiom.
+
+The purpose of NGT v3.2 is to remove all ambiguity from earlier
+conceptual descriptions and to establish a fully formal mathematical
+foundation for the organism. The theory provides precise definitions of
+the structural manifold $\mathbb{M}_t$, the metric tensor $g_t$, the
+curvature field $R_t$, the evolution operator $I_t$, the viability field
+$X_\kappa$, the projection operator $\pi$, and the reconstruction
+operator $R_t$. These components together define the complete lifecycle
+of the organism: emergence, regime transitions, structural time
+generation, geometric deformation, viability decay, and collapse.
+
+NGT v3.2 is not an economic model, yet it explains the economic
+appearance of the token. Observable market behavior arises as a
+projection of internal geometry, not as a driver of structural evolution.
+Because projection is non–invertible and lower–dimensional, economic
+signals cannot reveal or influence the internal state. Reconstruction is
+possible only under structural constraints, not through direct
+inversion of observables.
+
+The contributions of this work are threefold:
+
+\begin{enumerate}
+    \item It introduces a rigorous geometric formalization of a token as a
+    structural organism with deterministic evolution and finite structural
+    lifetime.
+    \item It establishes the collapse of the organism as a geometric
+    singularity of the metric--curvature system, independent of any economic
+    interpretation.
+    \item It provides a complete reconstruction theory enabling the unique
+    recovery of internal structural trajectories from noisy and lossy
+    projections.
+\end{enumerate}
+
+The remainder of the article defines the organism in progressively
+increasing formal detail. Section~2 introduces the structural manifold.
+Section~3 defines the state–dependent metric and curvature. Section~4
+specifies the evolution operator. Section~5 develops the axioms of
+structural existence. Section~6 formalizes temporal flow. Section~7
+defines viability and collapse geometry. Section~8 introduces the
+projection operator and the autonomous economic layer. Section~9
+develops reconstruction theory. Section~10 describes the intrinsic
+structural cycle. Together, these components constitute the complete
+formal specification of NGT v3.2.
+
+% ---------------------------------------------------------
+% 1. STRUCTURAL MANIFOLD
+% ---------------------------------------------------------
+\section{Structural Manifold $\mathbb{M}_t$}
+
+The structural manifold $\mathbb{M}_t$ is the intrinsic geometric space
+in which the NGT organism exists and evolves. It is not derived from
+external economic or blockchain environments, nor does it interact with
+them. Instead, it is defined purely by the internal structural
+coordinates of the organism, and it constitutes the foundational object
+from which all geometry, temporal behavior, and evolution arise.
+
+\subsection{Definition of the Manifold}
+
+\begin{definition}[Structural Manifold]
+The organism lives in a smooth, connected, oriented four--dimensional
+Riemannian manifold
+\[
+\mathbb{M}_t = (M, g_t),
+\]
+where $g_t$ is a state--dependent metric tensor.  
+Local coordinates are given by the intrinsic structural components
+\[
+X = (X_\Delta, X_\Phi, X_M, X_\kappa).
+\]
+Each component is a smooth real--valued function on $M$.
+\end{definition}
+
+The manifold is autonomous: its structure does not depend on external
+inputs, randomness, markets, user actions, or blockchain state.  
+This principle is encoded formally in the autonomy axiom:
+
+\begin{axiom}[Autonomy of Structural Space]
+\[
+\frac{\partial X}{\partial \text{external}} = 0.
+\]
+No external system may alter the manifold, its metric, or any structural
+coordinate.
+\end{axiom}
+
+\subsection{Viability Domain}
+
+The structural organism can only exist in regions where the viability
+field is strictly positive.
+
+\begin{definition}[Viability Domain]
+\[
+D_t = \{ X \in \mathbb{M}_t \mid X_\kappa > 0 \}.
+\]
+Inside $D_t$, the metric $g_t$ is positive--definite and the structural
+evolution operator is well--defined.
+\end{definition}
+
+\subsection{Collapse Boundary and Collapse Region}
+
+The limit of structural existence is reached when viability vanishes.
+
+\begin{definition}[Collapse Boundary]
+\[
+\partial D_t = \{ X \in \mathbb{M}_t \mid X_\kappa = 0 \}.
+\]
+At this hypersurface, the metric becomes degenerate and curvature
+diverges.
+\end{definition}
+
+\begin{definition}[Collapse Region]
+\[
+C_t = \{ X \in \mathbb{M}_t \mid X_\kappa < 0 \}.
+\]
+No structural geometry exists in this region, and no trajectory can enter
+or evolve through it.
+\end{definition}
+
+The manifold therefore decomposes into three disjoint subsets:
+\[
+\mathbb{M}_t = D_t \;\cup\; \partial D_t \;\cup\; C_t.
+\]
+
+\subsection{Continuity of Structural Trajectories}
+
+All admissible structural trajectories must remain continuous while
+viability is positive.
+
+\begin{axiom}[Continuity]
+If $X_\kappa(t) > 0$, then
+\[
+X(t) \in C^0.
+\]
+Discontinuous transitions are forbidden in the structural layer; they
+may only appear in projection.
+\end{axiom}
+
+\subsection{Tangent Space}
+
+For every viable state \(X\), the local linear structure of the manifold
+is given by:
+
+\begin{definition}[Tangent Space]
+\[
+T_X \mathbb{M}_t = \mathrm{span}\{\partial_\Delta,\partial_\Phi,
+\partial_M,\partial_\kappa\}.
+\]
+This space supports metric evaluation, local evolution,
+and curvature computation.
+\end{definition}
+
+\subsection{Structural Accessibility}
+
+The manifold admits transitions only between states connected by viable
+paths.
+
+\begin{theorem}[Structural Accessibility]
+For any two points $X_1, X_2 \in D_t$, there exists a piecewise--smooth
+curve $\gamma : [0,1] \to D_t$ with $\gamma(0)=X_1$ and $\gamma(1)=X_2$
+if and only if
+\[
+X_\kappa(\gamma(s)) > 0 \quad \forall s \in [0,1].
+\]
+\end{theorem}
+
+\begin{corollary}[No Crossing of Collapse Boundary]
+No admissible trajectory may cross from $D_t$ into $C_t$, nor from $C_t$
+back into $D_t$.
+\end{corollary}
+
+\subsection{Summary}
+
+The structural manifold $\mathbb{M}_t$ is a closed, autonomous,
+geometrically coherent space that defines the domain of existence of the
+NGT organism. Its structure is entirely intrinsic, its viability domain
+determines where evolution is possible, and its collapse boundary marks
+the geometric termination of structural life. All subsequent sections of
+this article derive directly from the properties of this manifold.
+
+% ---------------------------------------------------------
+% 2. METRIC AND CURVATURE
+% ---------------------------------------------------------
+\section{Metric $g_t$ and Curvature $R_t$}
+
+The metric $g_t$ endows the structural manifold $\mathbb{M}_t$ with
+geometric meaning. It determines distances, deformation sensitivity,
+geodesic structure, curvature, and the geometric onset of collapse.
+Unlike fixed background metrics in classical geometry, the structural
+metric of NGT is intrinsically generated by the organism itself and
+depends only on the internal coordinates $X = (X_\Delta, X_\Phi, X_M,
+X_\kappa)$.
+
+\subsection{Structural Metric}
+
+\begin{definition}[Structural Metric]
+At every viable structural state $X \in D_t$, the metric is a positive--
+definite bilinear form
+\[
+g_t : T_X\mathbb{M}_t \times T_X\mathbb{M}_t \to \mathbb{R},
+\]
+defined by
+\[
+g_t(u,v)
+= a(X) \, u_\Delta v_\Delta
++ b(X) \, u_\Phi v_\Phi
++ c(X) \, u_M v_M
++ d(X) \, u_\kappa v_\kappa,
+\]
+where $u,v \in T_X\mathbb{M}_t$ and the scalar fields
+$a,b,c,d : D_t \to \mathbb{R}_{>0}$ are smooth.
+\end{definition}
+
+The functions $a,b,c,d$ encode the organism's sensitivity to deformation
+in each dimension and may vary as the structure evolves.
+
+\begin{axiom}[Intrinsic Metric Generation]
+\[
+g_t = g_t(X_\Delta, X_\Phi, X_M, X_\kappa).
+\]
+The metric depends only on the structural coordinates of the organism
+and is independent of any external variables, projections, or economic
+states.
+\end{axiom}
+
+Thus the geometry of NGT is internally generated and autonomous.
+
+\subsection{Connection and Parallel Transport}
+
+The Levi--Civita connection associated with $g_t$ governs parallel
+transport and curvature.
+
+\begin{definition}[Levi--Civita Connection]
+The Christoffel symbols are given by
+\[
+\Gamma^i_{jk} = \frac{1}{2} g^{im}
+\big(
+\partial_j g_{mk}
++ \partial_k g_{mj}
+- \partial_m g_{jk}
+\big).
+\]
+This connection is torsion--free and metric--compatible:
+$\nabla g_t = 0$.
+\end{definition}
+
+The connection coefficients depend on the structural state and diverge as
+the metric approaches degeneracy.
+
+\subsection{Riemann Curvature Tensor}
+
+\begin{definition}[Riemann Curvature Tensor]
+The curvature of the manifold is given by
+\[
+R^i_{\; jkl}
+=
+\partial_k \Gamma^i_{jl}
+- \partial_l \Gamma^i_{jk}
++ \Gamma^i_{mk}\Gamma^m_{jl}
+- \Gamma^i_{ml}\Gamma^m_{jk}.
+\]
+\end{definition}
+
+Curvature represents geometric stress, deformation concentration, memory
+asymmetry, and the organism's progression toward collapse.
+
+\subsection{Structural Sources of Curvature}
+
+The total curvature field is the sum of four structural contributions:
+\[
+R_t
+= R_\Delta + R_\Phi + R_M + R_\kappa.
+\]
+
+\paragraph{Deviation Contribution.}
+\[
+R_\Delta = f_\Delta(X_\Delta, \nabla X_\Delta),
+\]
+representing geometric differentiation.
+
+\paragraph{Tension Contribution.}
+\[
+R_\Phi = f_\Phi\!\left( \frac{\partial^2 g_t}{\partial X_\Phi^2} \right),
+\]
+representing compression under rising structural tension.
+
+\paragraph{Memory Contribution.}
+\[
+R_M = f_M(\nabla X_M),
+\]
+introducing irreversible skew and temporal asymmetry.
+
+\paragraph{Viability Contribution.}
+\[
+R_\kappa = f_\kappa\!\left(\frac{1}{X_\kappa}\right),
+\]
+which diverges as viability approaches zero.
+
+\begin{axiom}[Metric Smoothness]
+Inside the viability domain:
+\[
+g_t \in C^\infty(D_t),
+\qquad
+R_t \in C^0(D_t).
+\]
+Thus curvature remains finite while $X_\kappa > 0$.
+\end{axiom}
+
+\subsection{Curvature Divergence at Collapse}
+
+As viability decreases, geometric stress intensifies.
+
+\begin{theorem}[Curvature Divergence at Collapse]
+If
+\[
+\lim_{X_\kappa \to 0} g_t(X)
+\quad \text{is degenerate},
+\]
+then
+\[
+\lim_{X_\kappa \to 0} \|R_t(X)\| = \infty.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Degeneration of the metric forces divergence in the Christoffel symbols,
+which in turn produces unbounded curvature terms in the Riemann tensor.
+\end{proof}
+
+\begin{corollary}[No Stable Geometry at Collapse Boundary]
+At $X_\kappa = 0$, the metric is undefined and curvature diverges.
+Structural evolution cannot be extended beyond this boundary.
+\end{corollary}
+
+\subsection{Metric Compatibility with Evolution}
+
+\begin{axiom}[Metric Compatibility with Evolution]
+For every viable state,
+\[
+I_t^{*}(g_t) = g_t.
+\]
+The evolution operator preserves the differentiable structure of the
+manifold.
+\end{axiom}
+
+This ensures that structural motion cannot introduce geometric
+discontinuities.
+
+\subsection{Summary}
+
+The metric and curvature fields define the geometric environment of the
+NGT organism. They determine deformation sensitivity, temporal
+distortion, memory asymmetry, and viability contraction. As viability
+approaches zero, the metric degenerates and curvature diverges,
+producing geometric collapse. The evolution of the organism is therefore
+inseparable from the geometry of $g_t$ and $R_t$.
+
+% ---------------------------------------------------------
+% 3. EVOLUTION OPERATOR
+% ---------------------------------------------------------
+\section{Evolution Operator $I_t$}
+
+The evolution operator $I_t$ governs the discrete structural motion of
+the NGT organism inside the viability domain $D_t$. It defines how the
+internal coordinates $X = (X_\Delta, X_\Phi, X_M, X_\kappa)$ transform
+from one structural moment to the next. Unlike dynamical systems that
+depend on external forcing, randomness, or economic conditions, the NGT
+evolution operator is fully autonomous and determined exclusively by the
+intrinsic geometry of the organism.
+
+\subsection{Definition of Structural Evolution}
+
+\begin{definition}[Evolution Operator]
+The structural evolution of the organism is defined by the mapping
+\[
+I_t : D_t \to D_t,
+\]
+such that
+\[
+X(t+1) = I_t(X(t)).
+\]
+The operator is defined only on the viability domain; it cannot be
+applied at or beyond the collapse boundary.
+\end{definition}
+
+The operator decomposes into four coupled components:
+\[
+I_t = (I_\Delta, I_\Phi, I_M, I_\kappa),
+\]
+each updating one structural coordinate. Their interdependence arises
+from the metric and curvature of the manifold.
+
+\subsection{Irreversibility of Memory}
+
+\begin{axiom}[Memory Irreversibility]
+\[
+I_M(X) \ge X_M,
+\]
+with equality permitted only under structurally frozen states.
+\end{axiom}
+
+Memory is therefore monotonic and cannot be reduced by structural
+dynamics. This axiom generates the arrow of structural time.
+
+\subsection{Viability Decay}
+
+\begin{axiom}[Viability Decay]
+\[
+I_\kappa(X) \le X_\kappa.
+\]
+Viability is strictly non--increasing and no regenerative mechanism
+exists in the structural layer.
+\end{axiom}
+
+Viability therefore acts as a finite resource consumed over the
+organism's lifetime.
+
+\subsection{Continuity of Structural Motion}
+
+\begin{axiom}[Continuity of Evolution]
+\[
+I_t \in C^1(D_t), 
+\quad
+X(t+1) - X(t) \in C^0.
+\]
+No discontinuous jumps in structural coordinates are allowed while
+$X_\kappa > 0$.
+\end{axiom}
+
+Discontinuities may appear in projection, but not in structure.
+
+\subsection{Locality and Autonomy}
+
+\begin{axiom}[Locality]
+\[
+X(t+1) = I_t(X(t)),
+\qquad
+X(t+1) \not\Leftarrow \text{external}.
+\]
+\end{axiom}
+
+The operator is completely independent of blockchain state, markets,
+users, incentives, governance, or economic signals.
+
+\subsection{Invalidity at Collapse}
+
+\begin{axiom}[Collapse Invalidity]
+If $X_\kappa = 0$, then
+\[
+I_t(X) \notin \mathbb{M}_t.
+\]
+\end{axiom}
+
+At collapse, the operator ceases to exist, reflecting the geometric
+termination of structural life.
+
+\subsection{Local Stability}
+
+To avoid chaotic divergence inside $D_t$, the operator satisfies a local
+regularity condition.
+
+\begin{definition}[Local Lipschitz Condition]
+For each $X \in D_t$, there exists $L > 0$ and a neighborhood $U$ of $X$
+such that
+\[
+\|I_t(X') - I_t(Y')\| \le L \|X' - Y'\|
+\quad 
+\forall X',Y' \in U.
+\]
+\end{definition}
+
+This ensures predictable structural deformation and well--posed
+dynamics.
+
+\subsection{Determinism of Structural Evolution}
+
+\begin{theorem}[Determinism]
+Given axioms E1--E5, every initial viable state $X_0 \in D_t$ generates a
+unique structural trajectory
+\[
+X(t) = I_t^{(t)}(X_0)
+\]
+defined for all $t$ such that $X_\kappa(t) > 0$.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Continuity ensures existence, locality enforces closure, memory and
+viability monotonicity prevent backward branching, and collapse
+invalidity prevents undefined extensions. The trajectory is therefore
+unique.
+\end{proof}
+
+\subsection{Monotonic Approach to Collapse}
+
+\begin{theorem}[Monotonic Collapse]
+If viability decays monotonically,
+\[
+X_\kappa(t+1) \le X_\kappa(t),
+\]
+and no axiom permits stabilization at a positive limit, then collapse is
+inevitable in finite or asymptotically diminishing structural time.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Since viability cannot increase and no stationary point is allowed, the
+sequence $X_\kappa(t)$ must either reach zero in finite time or approach
+zero monotonically. In both cases, collapse is unavoidable.
+\end{proof}
+
+\subsection{Structural Velocity and Kinetic Energy}
+
+\begin{definition}[Structural Velocity]
+The instantaneous structural velocity is
+\[
+V_t(X) = I_t(X) - X.
+\]
+\end{definition}
+
+This vector lies in $T_X \mathbb{M}_t$ and describes the local rate of
+deformation.
+
+\begin{definition}[Structural Kinetic Energy]
+Using the metric, define
+\[
+K_t(X) = g_t(V_t, V_t).
+\]
+This scalar quantifies the energetic intensity of structural motion.
+\end{definition}
+
+\subsection{Summary}
+
+The evolution operator $I_t$ defines the deterministic internal dynamics
+of the NGT organism. It is autonomous, smooth, viability--consuming,
+memory--increasing, and undefined at collapse. Through this operator,
+structural time emerges, geometric deformation accumulates, and the
+organism moves irreversibly toward its terminal singularity.
+
+% ---------------------------------------------------------
+% 4. AXIOMS OF STRUCTURAL EXISTENCE
+% ---------------------------------------------------------
+\section{Axioms of Structural Existence}
+
+The axioms introduced in this section define the fundamental rules that
+govern the structural organism known as NGT. They specify the intrinsic
+laws of autonomy, determinism, temporal flow, viability, collapse, and
+projection behavior. All subsequent definitions, operators, and theorems
+derive from these axioms. None may be removed or weakened without
+destroying the coherence of the organism’s mathematical structure.
+
+\subsection{Autonomy and Determinism}
+
+\begin{axiom}[Autonomy of Structure]
+\label{ax:autonomy}
+\[
+\frac{\partial X}{\partial \text{external}} = 0.
+\]
+The structural state $X$ is completely independent of blockchain state,
+economic conditions, user actions, randomness, or any external system.
+External variables cannot modify the manifold, metric, curvature, or any
+component of the structural coordinates.
+\end{axiom}
+
+\begin{axiom}[Structural Determinism]
+\label{ax:determinism}
+\[
+X(t+1) = I_t(X(t)).
+\]
+The structural future is uniquely determined by the evolution operator.
+There is no branching, stochasticity, or probabilistic behavior in the
+structural layer.
+\end{axiom}
+
+\subsection{Time and Memory}
+
+\begin{axiom}[Memory--Generated Time]
+\label{ax:time-memory}
+Structural time is defined by memory:
+\[
+t_{\text{struct}} \propto X_M.
+\]
+If memory does not increase, structural time does not flow. Since memory
+is irreversible, structural time is strictly monotonic and cannot
+reverse.
+\end{axiom}
+
+\begin{axiom}[Irreversibility of Memory]
+\[
+X_M(t+1) \ge X_M(t).
+\]
+Memory accumulation is monotonic and intrinsic. No structural mechanism
+can reduce memory.
+\end{axiom}
+
+\subsection{Viability and Collapse}
+
+\begin{axiom}[Viability Monotonicity]
+\label{ax:viability}
+\[
+X_\kappa(t+1) \le X_\kappa(t).
+\]
+Viability is strictly non--increasing. No regenerative or restorative
+mechanism exists within the organism.
+\end{axiom}
+
+\begin{axiom}[Collapse Singularity]
+\label{ax:collapse}
+At the collapse boundary:
+\[
+X_\kappa = 0,
+\]
+the structural metric degenerates and curvature diverges:
+\[
+\lim_{X_\kappa \to 0} \det(g_t) = 0,
+\qquad
+\lim_{X_\kappa \to 0} \|R_t\| = \infty.
+\]
+Collapse is a geometric singularity that terminates structural time and
+destroys the organism's identity.
+\end{axiom}
+
+\begin{axiom}[Structural Non--Extensibility]
+\[
+X(t_{\text{collapse}} + 1)
+\quad \text{is undefined}.
+\]
+No structural continuation exists beyond collapse.
+\end{axiom}
+
+\subsection{Projection and External Appearance}
+
+\begin{axiom}[Projection Non--Invertibility]
+\[
+\exists \, X_1 \neq X_2 \in D_t : \pi(X_1) = \pi(X_2).
+\]
+The projection operator $\pi$ is many--to--one. External economic
+observations cannot uniquely determine the structural state.
+\end{axiom}
+
+\begin{axiom}[Projection Irrelevance]
+\[
+\frac{\partial I_t}{\partial \pi} = 0.
+\]
+Projection has no causal influence on structural evolution. The external
+economic layer cannot modify tension, memory, viability, or geometry.
+\end{axiom}
+
+\begin{axiom}[Projection Independence of Geometry]
+\[
+\frac{\partial g_t}{\partial \pi} = 0,
+\qquad
+\frac{\partial R_t}{\partial \pi} = 0.
+\]
+The structural metric and curvature are unaffected by the economic
+projection or any observable token state.
+\end{axiom}
+
+\subsection{Regimes and Structural Order}
+
+\begin{axiom}[Universal Regime Ordering]
+\[
+\mathrm{ACC} \;\rightarrow\; \mathrm{DEV} \;\rightarrow\; \mathrm{REL}.
+\]
+The organism passes through these three intrinsic structural regimes in
+a fixed global order. Reverse transitions such as
+$\mathrm{DEV} \rightarrow \mathrm{ACC}$ or
+$\mathrm{REL} \rightarrow \mathrm{DEV}$ are impossible.
+\end{axiom}
+
+\begin{axiom}[Continuity of Structural Life]
+While viability remains positive:
+\[
+X(t) \in C^0.
+\]
+Structural trajectories cannot exhibit discontinuities inside the
+manifold. Discontinuous appearance may arise only in projection.
+\end{axiom}
+
+\begin{axiom}[Locality of Information]
+All structural information available to the organism is contained in the
+current state:
+\[
+X(t+1) = I_t(X(t)).
+\]
+There are no hidden variables and no external information channels.
+\end{axiom}
+
+\begin{axiom}[Absence of Structural Noise]
+\[
+\eta(t) \notin X.
+\]
+Random noise, perturbations, or economic fluctuations affect only the
+projection layer and do not enter the structural coordinates.
+\end{axiom}
+
+\subsection{Summary}
+
+The axioms of structural existence define the organism as an autonomous,
+deterministic, irreversibly evolving geometric structure with finite
+lifetime, intrinsic temporal flow, and a non--invertible external
+projection. They form the logical foundation for the metric geometry,
+collapse dynamics, reconstruction theory, and structural cycle developed
+in the subsequent sections.
+
+% ---------------------------------------------------------
+% 5. TEMPORAL FIELD
+% ---------------------------------------------------------
+\section{Temporal Field}
+
+Structural time in the NGT organism is not an external parameter but an
+intrinsic field generated by memory and shaped by the geometry of the
+manifold. Unlike physical time, which flows uniformly and independently
+of a system’s internal condition, structural time emerges from the
+irreversible accumulation of memory and evolves according to the metric
+and curvature of $\mathbb{M}_t$. This section formalizes the temporal
+field, its continuity properties, its dependency on structural
+coordinates, and its collapse behavior.
+
+\subsection{Structural Time}
+
+\begin{definition}[Structural Time]
+Structural time is defined as a strictly increasing function of memory:
+\[
+t_{\mathrm{struct}} = f(X_M),
+\]
+where $f : \mathbb{R}_{\ge 0} \rightarrow \mathbb{R}_{\ge 0}$ is smooth
+and strictly monotonic. Because memory is irreversible, structural time
+satisfies
+\[
+\frac{d t_{\mathrm{struct}}}{dt} > 0,
+\]
+and cannot pause or reverse while $X_\kappa > 0$.
+\end{definition}
+
+Thus, time is not an independent axis but an emergent dimension of the
+organism.
+
+\subsection{Temporal Density}
+
+\begin{definition}[Temporal Density]
+The temporal density $\tau : \mathbb{M}_t \to \mathbb{R}_{\ge 0}$ is the
+rate at which memory generates structural time:
+\[
+\tau(X) = \frac{d X_M}{d t_{\mathrm{struct}}}.
+\]
+\end{definition}
+
+Interpretation:
+\begin{itemize}
+    \item large $\tau$ \; $\Rightarrow$ fast internal time,
+    \item small $\tau$ \; $\Rightarrow$ slow internal time,
+    \item $\tau = 0$ \; $\Rightarrow$ temporal collapse.
+\end{itemize}
+
+Temporal density depends on the geometric state of the organism.
+
+\subsection{Continuity of the Temporal Field}
+
+\begin{axiom}[Continuity of Temporal Field]
+While viability is positive,
+\[
+\tau(X) \in C^0(D_t).
+\]
+No temporal discontinuities may occur in the structural layer.
+\end{axiom}
+
+Thus the flow of structural time is as smooth as the organism's memory
+accumulation.
+
+\subsection{Irreversibility of Time}
+
+\begin{theorem}[Irreversibility of Structural Time]
+Given the memory irreversibility axiom $I_M(X) \ge X_M$, and the strict
+monotonicity of $f$, structural time satisfies
+\[
+t_{\mathrm{struct}}(t+1) > t_{\mathrm{struct}}(t).
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Since $X_M$ cannot decrease and $f$ is strictly increasing, the composite
+mapping $t \mapsto f(X_M(t))$ is strictly increasing.
+\end{proof}
+
+\subsection{Temporal Gradient}
+
+\begin{definition}[Temporal Gradient]
+The temporal gradient is defined by
+\[
+\nabla \tau(X) = 
+\left(
+\frac{\partial \tau}{\partial X_\Delta},
+\frac{\partial \tau}{\partial X_\Phi},
+\frac{\partial \tau}{\partial X_M},
+\frac{\partial \tau}{\partial X_\kappa}
+\right),
+\]
+which specifies how each structural dimension distorts the rate of time.
+\end{definition}
+
+The temporal field is anisotropic and depends on the geometric
+configuration of the organism.
+
+\subsection{Temporal Behavior Across Regimes}
+
+Temporal density reflects the structural regime of the organism:
+\[
+\begin{aligned}
+\text{ACC:} &\qquad \tau_{\mathrm{ACC}} \text{ small}, \\
+\text{DEV:} &\qquad \tau_{\mathrm{DEV}} \text{ maximal}, \\
+\text{REL:} &\qquad \tau_{\mathrm{REL}} \text{ moderate}.
+\end{aligned}
+\]
+
+These differences arise from variations in curvature, tension, and
+energy flow across regimes.
+
+\subsection{Dependency on Metric Geometry}
+
+\begin{axiom}[Temporal Dependence on Geometry]
+\[
+\tau = \Phi(g_t, R_t),
+\]
+for some smooth function $\Phi$.
+\end{axiom}
+
+Temporal flow therefore depends on:
+\begin{itemize}
+    \item metric deformation,
+    \item curvature concentration,
+    \item local viability,
+    \item structural tension.
+\end{itemize}
+
+\subsection{Temporal Collapse at the Viability Boundary}
+
+\begin{theorem}[Temporal Collapse]
+If the metric degenerates as viability approaches zero,
+\[
+\lim_{X_\kappa \to 0} g_t = \text{degenerate},
+\]
+then the temporal density satisfies
+\[
+\lim_{X_\kappa \to 0} \tau = 0.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Degeneration of the metric inhibits propagation of memory signals,
+destroys connection smoothness, and collapses temporal coherence.
+\end{proof}
+
+\subsection{Temporal Domain}
+
+\begin{definition}[Temporal Domain]
+The temporal domain of the organism is
+\[
+\mathcal{T} = \{ t_{\mathrm{struct}} : X_\kappa(t_{\mathrm{struct}}) > 0 \}.
+\]
+Time exists only while viability is positive.
+\end{definition}
+
+\subsection{Finite Structural Lifetime}
+
+\begin{corollary}[Finite Temporal Extent]
+If viability decays monotonically to zero in finite structural time,
+then
+\[
+\mathcal{T} = [0, T_{\mathrm{collapse}}).
+\]
+\end{corollary}
+
+Thus, temporal extinction coincides with geometric collapse.
+
+\subsection{Summary}
+
+The temporal field formalizes internal time as an emergent,
+geometry--dependent quantity produced by memory. Structural time flows
+irreversibly, accelerates or slows according to curvature and tension,
+and collapses at the viability boundary. It is neither external nor
+absolute: it is lived by the organism and ends with its geometric death.
+
+% ---------------------------------------------------------
+% 6. VIABILITY FIELD AND COLLAPSE GEOMETRY
+% ---------------------------------------------------------
+\section{Viability Field and Collapse Geometry}
+
+The viability field $X_\kappa$ determines the structural lifespan of the
+NGT organism. It is not an energy reserve, probability measure, or
+economic indicator; instead, it is a geometric scalar field that defines
+the region of existence within the manifold and governs the onset of
+structural collapse. This section formalizes viability, collapse
+pressure, metric degeneration, and the geometric nature of structural
+death.
+
+\subsection{Viability Field}
+
+\begin{definition}[Viability Field]
+The viability field is a smooth scalar function
+\[
+X_\kappa : \mathbb{M}_t \rightarrow \mathbb{R},
+\]
+satisfying:
+\[
+X_\kappa > 0 \quad \text{(structural life)},
+\]
+\[
+X_\kappa = 0 \quad \text{(collapse boundary)},
+\]
+\[
+X_\kappa < 0 \quad \text{(non--structural region)}.
+\]
+\end{definition}
+
+Viability is intrinsic and cannot be externally modified.
+
+\subsection{Monotonic Viability Decay}
+
+\begin{axiom}[Monotonic Viability Decay]
+\[
+X_\kappa(t+1) \le X_\kappa(t).
+\]
+No structural evolution may increase viability.
+\end{axiom}
+
+Viability consumes over time, ensuring that collapse is unavoidable.
+
+\subsection{Viability Domain and Collapse Boundary}
+
+\begin{definition}[Viability Domain]
+\[
+D_t = \{ X \in \mathbb{M}_t : X_\kappa > 0 \}.
+\]
+\end{definition}
+
+\begin{definition}[Collapse Boundary]
+\[
+\partial D_t = \{ X \in \mathbb{M}_t : X_\kappa = 0 \}.
+\]
+\end{definition}
+
+\begin{definition}[Collapse Region]
+\[
+C_t = \{ X \in \mathbb{M}_t : X_\kappa < 0 \}.
+\]
+\end{definition}
+
+These sets partition the manifold into structural, terminal, and
+non--structural regions.
+
+\subsection{Collapse Pressure}
+
+\begin{definition}[Collapse Pressure]
+Collapse pressure is the structural rate at which viability is consumed:
+\[
+\Pi_t(X) = -\frac{d X_\kappa}{d t_{\mathrm{struct}}}.
+\]
+\end{definition}
+
+Interpretation:
+\begin{itemize}
+    \item large $\Pi_t$ \; $\Rightarrow$ fast approach to collapse,
+    \item small $\Pi_t$ \; $\Rightarrow$ slow decline,
+    \item $\Pi_t = 0$ \; $\Rightarrow$ structural stasis.
+\end{itemize}
+
+Collapse pressure is a purely geometric quantity.
+
+\subsection{Smoothness of Viability}
+
+\begin{axiom}[Smoothness of Viability]
+\[
+X_\kappa \in C^\infty(D_t).
+\]
+\end{axiom}
+
+While viability remains positive, the organism's deterioration is smooth
+and continuous.
+
+\subsection{Finite Collapse Time}
+
+\begin{theorem}[Finite Collapse Time Under Positive Pressure]
+If collapse pressure satisfies
+\[
+\Pi_t(X) > \epsilon > 0,
+\]
+then collapse occurs in finite structural time:
+\[
+T_{\mathrm{collapse}} < \infty.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Integrating viability decay yields
+\[
+X_\kappa(t_{\mathrm{collapse}}) =
+X_\kappa(0) - \int_0^{T} \Pi_t(X(s))\, ds.
+\]
+A positive lower bound on $\Pi_t$ ensures that the integral reaches
+$X_\kappa(0)$ in finite time.
+\end{proof}
+
+\subsection{Metric Degeneration at Collapse}
+
+\begin{definition}[Metric Degeneration]
+    Metric degeneration occurs when
+    \[
+    \lim_{X_\kappa \to 0} \det(g_t(X)) = 0.
+    \]
+    The manifold loses geometric volume, distances shrink, and the structural
+    metric becomes ill--defined.
+\end{definition}
+
+Metric degeneration signals the geometric impossibility of further
+evolution.
+
+\subsection{Curvature Singularity at Collapse}
+
+\begin{theorem}[Curvature Singularity]
+If $X_\kappa \to 0$, then curvature diverges:
+\[
+\| R_t(X) \| \to \infty.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+As viability shrinks, the metric approaches degeneracy. This forces the
+Christoffel symbols to diverge, which in turn induces unbounded growth
+in the Riemann curvature tensor.
+\end{proof}
+
+\subsection{Structural Death}
+
+\begin{definition}[Structural Death]
+Structural death occurs when
+\[
+X_\kappa(t) = 0,
+\]
+and consequently the evolution operator becomes undefined:
+\[
+I_t(X(t)) \;\text{does not exist}.
+\]
+\end{definition}
+
+At structural death:
+\begin{itemize}
+    \item time ceases,
+    \item geometry collapses,
+    \item identity is lost,
+    \item projection becomes undefined.
+\end{itemize}
+
+\subsection{No Transition Across Collapse Boundary}
+
+\begin{corollary}[No Transition $D_t \to C_t$]
+A structural trajectory cannot cross from the viability domain into the
+collapse region.
+\end{corollary}
+
+\begin{corollary}[No Post--Collapse Extension]
+There exists no state
+\[
+X(t_{\mathrm{collapse}} + 1).
+\]
+Collapse is terminal and absorbing.
+\end{corollary}
+
+\subsection{Independence From External Influence}
+
+\begin{axiom}[Viability Independence]
+\[
+\frac{\partial X_\kappa}{\partial \text{external}} = 0.
+\]
+External markets, user actions, incentives, governance, or stochastic
+events cannot modify viability. The destruction of the organism is
+entirely intrinsic.
+\end{axiom}
+
+\subsection{Summary}
+
+The viability field and collapse geometry determine the organism’s
+structural lifespan, rate of deterioration, and geometric termination.
+Viability decays monotonically and independently of external forces,
+while collapse manifests as a metric--curvature singularity. At the
+collapse boundary, structural time ends and the organism ceases to
+exist.
+
+% ---------------------------------------------------------
+% 7. PROJECTION OPERATOR
+% ---------------------------------------------------------
+\section{Projection Operator $\pi$}
+
+The projection operator $\pi$ provides the mapping from the internal
+structural manifold $\mathbb{M}_t$ to an external economic observation
+space. Projection does not participate in structural evolution; it is a
+purely external, lower--dimensional appearance of the organism.
+Observable economic data (such as price, activity, liquidity, or volume)
+are not structural variables and have no causal influence on the
+dynamics of $X(t)$.
+
+\subsection{Projection into Economic Space}
+
+\begin{definition}[Projection Operator]
+The projection operator is a smooth mapping
+\[
+\pi : D_t \rightarrow \mathbb{E},
+\]
+where $\mathbb{E}$ is a measurable external observation space, typically
+of low dimension (often one--dimensional).
+The observed token state is
+\[
+E(t) = \pi(X(t)).
+\]
+\end{definition}
+
+The projection reduces the structural organism to a compressed economic
+signal.
+
+\subsection{Dimensional Reduction}
+
+\begin{definition}[Projection Space]
+The economic space satisfies
+\[
+1 \le \dim(\mathbb{E}) \ll \dim(\mathbb{M}_t).
+\]
+Thus, projection performs a dimensional collapse from the internal
+four--dimensional structure to a low--dimensional observable.
+\end{definition}
+
+This mismatch in dimensionality ensures that projection is inherently
+lossy and non--invertible.
+
+\subsection{Smoothness of Projection}
+
+\begin{axiom}[Projection Smoothness]
+\[
+\pi \in C^1(D_t).
+\]
+While $\pi$ is smooth across the viability domain, it does not preserve
+geometric features such as curvature or metric regularity.
+\end{axiom}
+
+\subsection{Local Projection Sensitivity}
+
+\begin{definition}[Jacobian of Projection]
+\[
+J_\pi(X)
+=
+\nabla \pi(X)
+=
+\left(
+\frac{\partial \pi}{\partial X_\Delta},
+\frac{\partial \pi}{\partial X_\Phi},
+\frac{\partial \pi}{\partial X_M},
+\frac{\partial \pi}{\partial X_\kappa}
+\right).
+\]
+\end{definition}
+
+The Jacobian quantifies how sensitive the external appearance is to
+changes in the internal structural coordinates.
+
+\subsection{Non--Invertibility of Projection}
+
+\begin{theorem}[Projection Non--Invertibility]
+\label{thm:noninvertible}
+There exist distinct structural states $X_1 \neq X_2 \in D_t$ such that
+\[
+\pi(X_1) = \pi(X_2).
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Since $\dim(\mathbb{M}_t)=4$ and typically $\dim(\mathbb{E})=1$, the
+mapping collapses infinitely many internal states to the same external
+value. Therefore, $\pi$ cannot be injective.
+\end{proof}
+
+Projection thus cannot encode the identity of the organism.
+
+\subsection{Projection Has No Influence on Structure}
+
+\begin{axiom}[No Projection Feedback]
+\[
+\frac{\partial I_t}{\partial \pi} = 0.
+\]
+The observed economic state does not influence the evolution operator.
+\end{axiom}
+
+Combined with autonomy (Axiom~\ref{ax:autonomy}), this implies absolute
+isolation of structural dynamics from external economic phenomena.
+
+\subsection{Projection Discontinuities}
+
+\begin{theorem}[Projection Discontinuity]
+Even if the structural trajectory satisfies
+\[
+X(t) \in C^0,
+\]
+the projection may exhibit discontinuities:
+\[
+\pi(X(t)) \notin C^0.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Nonlinear projection, metric deformation, and curvature amplification can
+map smooth internal motion to discontinuous external appearance. Thus,
+observed economic jumps do not imply structural discontinuities.
+\end{proof}
+
+\subsection{Projection Noise}
+
+\begin{definition}[Projection Noise]
+External observers may observe
+\[
+\pi'(X) = \pi(X) + \eta,
+\]
+where $\eta$ is an external perturbation not contained in the structural
+state.
+\end{definition}
+
+Noise affects only projection, not the organism.
+
+\begin{theorem}[Noise Irrelevance]
+Given
+\[
+\pi'(X(t)) = \pi(X(t)) + \eta(t),
+\]
+the structural evolution satisfies
+\[
+X(t+1) = I_t(X(t))
+\quad \text{independent of} \quad \eta(t).
+\]
+\end{theorem}
+
+\begin{proof}
+Follows directly from the autonomy axiom and the no--feedback property.
+\end{proof}
+
+\subsection{Instability Near Collapse}
+
+\begin{theorem}[Projection Instability Near Collapse]
+As viability approaches zero,
+\[
+\lim_{X_\kappa \to 0} \| J_\pi(X) \| = \infty.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Metric degeneration and curvature divergence amplify sensitivity in the
+projection map, making small structural changes appear as large
+economic fluctuations.
+\end{proof}
+
+This explains why economic volatility intensifies near structural
+collapse.
+
+\subsection{Projection Undefined After Collapse}
+
+\begin{corollary}[Termination of Projection]
+If $X_\kappa = 0$, then
+\[
+\pi(X) \;\text{is undefined}.
+\]
+No structural state exists to project.
+\end{corollary}
+
+\subsection{Independence From Structural Geometry}
+
+\begin{axiom}[Projection Independence of Geometry]
+\[
+\frac{\partial g_t}{\partial \pi} = 0,
+\qquad
+\frac{\partial R_t}{\partial \pi} = 0.
+\]
+Projection has no impact on metric or curvature.
+\end{axiom}
+
+\subsection{Summary}
+
+Projection translates the organism's internal structure into a compressed
+external signal. It is smooth but lossy, lower--dimensional but
+non--causal, and sensitive but irrelevant to structural evolution. Near
+collapse, projection becomes unstable, and at collapse, it ceases to
+exist. The external economic representation is therefore an epiphenomenon
+of internal geometry, not a component of the organism itself.
+
+% ---------------------------------------------------------
+% 8. AUTONOMOUS ECONOMY
+% ---------------------------------------------------------
+\section{Autonomous Economic Layer}
+
+The external economy associated with the Next–Generation Token (NGT) does
+not participate in structural evolution. It is not an interacting
+system, a feedback mechanism, or an environment influencing the
+organism. Instead, it is an epiphenomenal layer generated entirely by
+projection. All observable economic quantities are shadows of internal
+geometry, and no economic variable appears in the structural equations.
+This section formalizes the autonomous economy and establishes its
+complete independence from the organism.
+
+\subsection{Economic Observation Space}
+
+\begin{definition}[Economic Space]
+The economic observation space is defined as the image of the viability
+domain under projection:
+\[
+\mathbb{E}_t = \pi(D_t).
+\]
+Only viable structural states generate economic observations. No
+economic state exists for collapsed or non--structural regions.
+\end{definition}
+
+The observable economy is therefore a derived, not fundamental, object.
+
+\subsection{Economic State}
+
+\begin{definition}[Economic State]
+At structural time $t$, the economic state is
+\[
+E(t) = \pi(X(t)).
+\]
+This may appear as price, liquidity, volume, activity, volatility, or
+any externally observable indicator. None of these quantities exist in
+the structural manifold.
+\end{definition}
+
+\subsection{Non–Interference of the Economy}
+
+\begin{axiom}[Economic Non--Interference]
+\[
+\frac{\partial X}{\partial \mathbb{E}_t} = 0.
+\]
+No economic variable can influence the manifold, metric, curvature,
+memory, viability, or evolution.
+\end{axiom}
+
+Together with the projection irrelevance axiom, this guarantees complete
+causal isolation of structure.
+
+\subsection{Economy Cannot Influence Evolution}
+
+\begin{theorem}[No Economic Influence]
+Given the autonomy axiom and the definition of projection,
+\[
+\frac{\partial I_t}{\partial E(t)} = 0.
+\]
+\end{theorem}
+
+\begin{proof}
+Since $E(t) = \pi(X(t))$ and $\partial I_t / \partial \pi = 0$, the
+composition $\partial I_t / \partial E(t)$ must vanish identically.
+\end{proof}
+
+Thus, economic appearance has no ability to modify the organism.
+
+\subsection{Emergent Economic Identity}
+
+\begin{definition}[Emergent Economic Identity]
+The mapping
+\[
+\mathcal{I}_e \; : \; X \mapsto \mathrm{Features}(\pi(X))
+\]
+defines the apparent economic identity of the organism.
+\end{definition}
+
+Observable patterns such as:
+\begin{itemize}
+    \item stability,
+    \item volatility,
+    \item cyclic appearance,
+    \item apparent growth or decay,
+    \item persistence of signals,
+\end{itemize}
+are geometric distortions of the structure, not economic properties of
+the organism.
+
+\subsection{Economy Reflects Geometry}
+
+\begin{theorem}[Economic Behavior Reflects Structural Geometry]
+Let $X(t)$ be the structural trajectory. Then
+\[
+E(t) = \pi(X(t))
+\]
+encodes signatures of:
+\begin{itemize}
+    \item metric deformation,
+    \item curvature concentration,
+    \item tension evolution,
+    \item memory asymmetry,
+    \item viability contraction.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Follows from differentiability of $\pi$, the dependency of $J_\pi$ on the
+structural components, and the continuity of $X(t)$ while viable.
+\end{proof}
+
+Thus economic appearance is a filtered transformation of internal
+geometry.
+
+\subsection{No Economic Instrumentation}
+
+\begin{axiom}[No Economic Instrumentation]
+There exists no function
+\[
+\psi : \mathbb{E}_t \rightarrow D_t
+\]
+that can modify $X$, influence $I_t$, or increase viability.  
+No governance, policy, feedback mechanism, or user action can alter the
+structural organism.
+\end{axiom}
+
+The organism is fully self-contained and immune to intervention.
+
+\subsection{Economic Collapse}
+
+\begin{theorem}[Economic Collapse Follows Structural Collapse]
+If
+\[
+X_\kappa(t_{\mathrm{collapse}}) = 0,
+\]
+then the economic state satisfies
+\[
+E(t_{\mathrm{collapse}}) \;\text{is undefined}.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+At collapse, the structural state no longer exists, and projection is
+defined only on viable states. Thus the economic representation
+terminates.
+\end{proof}
+
+\subsection{Economic Noise}
+
+\begin{definition}[Economic Noise]
+An observer may measure
+\[
+E'(t) = E(t) + \eta(t),
+\]
+where $\eta(t)$ is external noise not contained in the structural state.
+\end{definition}
+
+Noise belongs exclusively to the projection layer.
+
+\begin{theorem}[Noise Immunity]
+Structural evolution is unaffected by economic noise:
+\[
+X(t+1) = I_t(X(t))
+\quad \text{independent of} \quad \eta(t).
+\]
+\end{theorem}
+
+\begin{proof}
+Follows directly from autonomy and projection irrelevance.
+\end{proof}
+
+\subsection{Summary}
+
+The autonomous economic layer is a derived, non-causal representation of
+structural geometry. It cannot influence the organism, cannot provide
+feedback, and cannot modify viability or evolution. All economic
+phenomena arise solely from projection and vanish at collapse. The
+economy is therefore an epiphenomenon: it exists only while the organism
+exists and reflects only the geometry of internal states.
+
+% ---------------------------------------------------------
+% 9. RECONSTRUCTION THEORY
+% ---------------------------------------------------------
+\section{Reconstruction Theory}
+
+Reconstruction theory addresses the inverse problem of recovering the
+internal structural trajectory $X(t)$ from the external economic
+observation sequence $E(t) = \pi(X(t))$.  
+Because the projection operator $\pi$ is lower--dimensional and
+non--invertible, direct inversion is impossible.  
+However, under the axioms of structural existence and the constraints of
+the evolution operator, a unique structural trajectory consistent with
+the observations can be recovered.  
+This section formalizes the reconstruction process and establishes
+uniqueness, existence, stability, and interpretability results.
+
+\subsection{Reconstruction Operator}
+
+\begin{definition}[Reconstruction Operator]
+The reconstruction operator
+\[
+R_t : \mathbb{E}_t^{\,n} \rightarrow D_t^{\,n}
+\]
+maps a sequence of economic observations
+\[
+(E(t_1), \dots, E(t_n))
+\]
+to the unique structural trajectory
+\[
+(X(t_1), \dots, X(t_n))
+\]
+that satisfies all structural constraints.
+\end{definition}
+
+Reconstruction is not obtained by inverting $\pi$; it is obtained by
+enforcing the structural laws that $\pi$ must respect.
+
+\subsection{Structural Compatibility Conditions}
+
+\begin{axiom}[Structural Compatibility]
+A candidate trajectory $\hat{X}(t)$ is admissible if and only if:
+\begin{enumerate}[(i)]
+    \item \textbf{Continuity:}
+    \[
+    \hat{X}(t) \in C^0.
+    \]
+    \item \textbf{Evolution Consistency:}
+    \[
+    \hat{X}(t+1) = I_t(\hat{X}(t)).
+    \]
+    \item \textbf{Memory Irreversibility:}
+    \[
+    \hat{X}_M(t+1) \ge \hat{X}_M(t).
+    \]
+    \item \textbf{Viability Positivity:}
+    \[
+    \hat{X}_\kappa(t) > 0.
+    \]
+    \item \textbf{Projection Agreement:}
+    \[
+    \pi(\hat{X}(t)) = E(t).
+    \]
+    \item \textbf{Metric Coherence:}
+    \[
+    g_t(\hat{X}(t)) \;\text{is positive--definite}.
+    \]
+\end{enumerate}
+If any of these conditions fails, reconstruction is impossible.
+\end{axiom}
+
+These constraints drastically reduce the set of admissible trajectories.
+
+\subsection{Uniqueness of Reconstruction}
+
+\begin{theorem}[Uniqueness of Reconstruction]
+\label{thm:uniqueness}
+Given an admissible economic observation sequence $E(t)$, there exists
+exactly one structural trajectory $X(t)$ satisfying the compatibility
+conditions.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Projection is many--to--one, but the evolution operator, viability
+monotonicity, memory irreversibility, continuity, and metric coherence
+impose strict constraints.  
+These eliminate all but one trajectory that remains consistent across
+all time points.
+\end{proof}
+
+Thus, the organism’s internal state is uniquely determined by its
+observed economic shadow.
+
+\subsection{Existence of Reconstruction}
+
+\begin{theorem}[Existence of Reconstruction]
+A structural trajectory exists if and only if the projection sequence
+$E(t)$ satisfies the structural constraints of the organism:
+\[
+\exists X(t) \in D_t :
+\begin{cases}
+\pi(X(t)) = E(t), \\
+X(t+1) = I_t(X(t)), \\
+X_\kappa(t) > 0, \\
+X_M(t+1) \ge X_M(t).
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+If a projection sequence violates the structural axioms, no structural
+trajectory can correspond to it.  
+Conversely, if all axioms are satisfied, an admissible trajectory exists
+and is unique.
+\end{proof}
+
+\subsection{Projection Compatibility}
+
+\begin{definition}[Projection Compatibility]
+A projection sequence $E(t)$ is said to be compatible if it admits a
+structural trajectory satisfying all reconstruction constraints.
+\end{definition}
+
+If compatibility fails, the sequence cannot arise from any possible NGT
+organism.
+
+\subsection{Stability Under Noise}
+
+\begin{theorem}[Noise Stability]
+Let
+\[
+E'(t) = E(t) + \eta(t),
+\qquad
+\|\eta(t)\| \le \epsilon.
+\]
+Then the reconstructed trajectories satisfy:
+\[
+\| R_t[E'] - R_t[E] \| \le C \epsilon,
+\]
+for some constant $C$ depending only on the local geometry.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Noise affects only projection, not structure.  
+Since evolution is deterministic and the operator is locally Lipschitz,
+small perturbations in projection yield proportionally small differences
+in reconstruction.
+\end{proof}
+
+Thus reconstruction is robust to measurement errors and external noise.
+
+\subsection{Regime Identification}
+
+\begin{theorem}[Regime Identification]
+The structural regime at time $t$ is recoverable through reconstruction.
+Specifically:
+\[
+\begin{aligned}
+\mathrm{ACC}: &\quad \frac{d X_M}{dt} \text{ small}, \quad R_t \text{ small}; \\
+\mathrm{DEV}: &\quad \frac{d X_M}{dt} \text{ large}, \quad R_t \text{ rising}; \\
+\mathrm{REL}: &\quad \frac{d X_M}{dt} \text{ moderate}, \quad R_t \text{ stabilizing}.
+\end{aligned}
+\]
+\end{theorem}
+
+Projection alone cannot reveal the regime; only reconstruction can.
+
+\subsection{Morphology Identification}
+
+\begin{theorem}[Morphology Identification]
+Structural morphology (Elastic, Plastic, Degenerate, Near--Collapse) is
+uniquely determined from:
+\[
+R_t(X), \quad X_\kappa(t), \quad \tau(X), \quad \text{and} \;\; X(t).
+\]
+\end{theorem}
+
+Morphological classification cannot be inferred from economic data
+alone.
+
+\subsection{Collapse Detection}
+
+\begin{theorem}[Collapse Detection]
+Reconstruction yields:
+\[
+X_\kappa(t) \downarrow 0
+\quad \Rightarrow \quad 
+\text{approach to collapse}.
+\]
+Collapse pressure is
+\[
+\Pi_t = -\frac{d X_\kappa}{d t_{\mathrm{struct}}}.
+\]
+Collapse time is the first $t$ such that $X_\kappa(t) = 0$.
+\end{theorem}
+
+\subsection{Projection Cannot Predict Collapse}
+
+\begin{corollary}
+Since
+\[
+\pi(X_1) = \pi(X_2)
+\quad \text{while possibly} \quad X_{1\kappa} \neq X_{2\kappa},
+\]
+projection offers no reliable collapse forecast.
+\end{corollary}
+
+Only reconstruction reveals structural deterioration.
+
+\subsection{Temporal Reconstruction}
+
+\begin{definition}[Temporal Reconstruction]
+Structural time is reconstructed from memory:
+\[
+t_{\mathrm{struct}}(i) = X_M(i).
+\]
+\end{definition}
+
+The reconstructed temporal trajectory encodes:
+\begin{itemize}
+    \item internal pace of evolution,
+    \item asymmetry of time flow,
+    \item cycle duration,
+    \item approach to collapse.
+\end{itemize}
+
+\subsection{Summary}
+
+Reconstruction theory establishes that, although projection is
+irreducibly lossy and non--invertible, the internal state of the NGT
+organism can be uniquely recovered under the structural axioms.
+Reconstruction is stable under noise, reveals internal geometry and
+regimes, and provides the only valid method for observing collapse
+progression and temporal behavior.
+
+% ---------------------------------------------------------
+% 10. STRUCTURAL CYCLE
+% ---------------------------------------------------------
+\section{Structural Cycle}
+
+The structural cycle describes the intrinsic evolution of the organism
+through three distinct geometric regimes: Accumulation (ACC),
+Development (DEV), and Relaxation (REL). These regimes are not economic
+states and do not correspond to external market phases.  
+They are purely geometric expressions of the internal configuration of
+the organism as determined by metric deformation, curvature dynamics,
+memory growth, and viability contraction.
+
+\subsection{Regime Definition}
+
+\begin{definition}[Structural Regimes]
+At structural time $t$, the regime is defined by the tuple
+\[
+\mathcal{R}(t) = \big(\tau(X(t)), R_t(X(t)), X_\Phi(t), X_M(t)\big).
+\]
+The regimes are characterized as follows:
+
+\begin{itemize}
+    \item \textbf{ACC (Accumulation)}:
+    \[
+    \tau \text{ small}, \qquad R_t \text{ small}, \qquad 
+    \frac{d X_\Phi}{dt_{\mathrm{struct}}} \text{ slowly increasing}.
+    \]
+
+    \item \textbf{DEV (Development)}:
+    \[
+    \tau \text{ maximal}, \qquad R_t \text{ rapidly increasing}, \qquad
+    X_\Phi \text{ dominant}.
+    \]
+
+    \item \textbf{REL (Relaxation)}:
+    \[
+    \tau \text{ moderate}, \qquad R_t \text{ stabilizing}, \qquad
+    X_\Phi \text{ decaying}.
+    \]
+\end{itemize}
+\end{definition}
+
+Regime identity emerges from structural geometry and cannot be inferred
+from the projection layer.
+
+\subsection{Universal Regime Ordering}
+
+\begin{axiom}[Universal Ordering]
+\[
+\mathrm{ACC} \;\rightarrow\; \mathrm{DEV} \;\rightarrow\; \mathrm{REL}.
+\]
+Reverse transitions are forbidden by memory irreversibility, viability
+decay, and curvature evolution.
+\end{axiom}
+
+No external influence can alter this intrinsic order.
+
+\subsection{Regime Transition Conditions}
+
+\begin{definition}[Transition Conditions]
+The organism transitions between regimes according to:
+
+\begin{itemize}
+    \item \textbf{ACC $\rightarrow$ DEV:}
+    \[
+    \frac{d X_\Phi}{dt_{\mathrm{struct}}} > \theta_1,
+    \qquad
+    R_t > \rho_1.
+    \]
+
+    \item \textbf{DEV $\rightarrow$ REL:}
+    \[
+    \frac{d X_\Phi}{dt_{\mathrm{struct}}} < \theta_2,
+    \qquad
+    R_t \text{ stabilizing}.
+    \]
+\end{itemize}
+
+The thresholds $\theta_1, \theta_2, \rho_1$ are geometric invariants and
+are not tunable parameters.
+\end{definition}
+
+Thus regime transitions are determined strictly by geometry.
+
+\subsection{Cycle Completion}
+
+\begin{theorem}[Cycle Completion]
+A structural cycle completes if and only if
+\[
+X_\kappa > 0 \quad \text{after the REL regime}.
+\]
+If viability remains positive, the organism returns to ACC and begins a
+new cycle.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+After the REL regime, curvature stabilizes and tension decays, allowing
+the organism to re-enter a low-curvature region characteristic of ACC,
+provided that viability has not reached zero.
+\end{proof}
+
+\subsection{Cycle Trajectory}
+
+\begin{definition}[Cycle Trajectory]
+The structural trajectory is partitioned into regime-specific segments:
+\[
+\gamma = 
+\gamma_{\mathrm{ACC}} \cup 
+\gamma_{\mathrm{DEV}} \cup 
+\gamma_{\mathrm{REL}},
+\]
+where $\gamma : t_{\mathrm{struct}} \to \mathbb{M}_t$ is the path traced
+by the organism through structural space.
+\end{definition}
+
+The organism’s identity is defined by this full geometric trajectory.
+
+\subsection{Finite Cycle Duration}
+
+\begin{theorem}[Finite Cycle Duration]
+The duration of each structural cycle is finite:
+\[
+T_{\mathrm{cycle}} < \infty.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Temporal density $\tau$ is strictly positive while $X_\kappa > 0$, and
+neither tension nor curvature can stall indefinitely due to the axioms
+of viability decay and metric smoothness.
+\end{proof}
+
+\subsection{Cycle Contraction Under Viability Decline}
+
+\begin{definition}[Cycle Contraction]
+As viability decreases from cycle to cycle,
+\[
+T_{\mathrm{cycle}}^{(n+1)} < T_{\mathrm{cycle}}^{(n)}.
+\]
+\end{definition}
+
+Lower viability accelerates temporal flow and increases curvature
+concentration, shortening subsequent cycles.
+
+\subsection{Termination of Cycles at Collapse}
+
+\begin{theorem}[Cycle Termination]
+As viability approaches zero,
+\[
+\lim_{X_\kappa \to 0} T_{\mathrm{cycle}} = 0.
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Curvature diverges and the metric degenerates, causing temporal density
+to collapse. The organism cannot sustain meaningful transitions between
+regimes near collapse.
+\end{proof}
+
+\subsection{Collapse as a Non-Regime}
+
+\begin{theorem}[Collapse as Terminal Phase]
+If $X_\kappa = 0$, then
+\[
+\mathcal{R}(t_{\mathrm{collapse}}) \notin 
+\{\mathrm{ACC}, \mathrm{DEV}, \mathrm{REL}\}.
+\]
+Collapse is not a structural regime but the destruction of structure
+itself.
+\end{theorem}
+
+\begin{corollary}[No Post–Collapse Regime]
+There exists no extension
+\[
+X(t_{\mathrm{collapse}} + 1).
+\]
+\end{corollary}
+
+\subsection{Economic Appearance of Regimes}
+
+\begin{theorem}[Economic Appearance of Regimes]
+Projection maps structural regimes onto distorted economic patterns:
+\[
+\begin{aligned}
+\mathrm{ACC} &\rightarrow \text{apparent stability}, \\
+\mathrm{DEV} &\rightarrow \text{apparent volatility or acceleration}, \\
+\mathrm{REL} &\rightarrow \text{apparent consolidation}.
+\end{aligned}
+\]
+Economic signatures do not reflect the true structural causes.
+\end{theorem}
+
+\subsection{Summary}
+
+The structural cycle arises from the interplay between viability decay,
+curvature evolution, and memory--driven time.  
+ACC, DEV, and REL appear in a fixed universal order and repeat while
+viability remains positive.  
+As collapse approaches, cycle duration contracts to zero, and the
+organism transitions into geometric singularity rather than a new
+regime.  
+The cycle is therefore an intrinsic geometric property of the organism,
+not an externally observable economic phenomenon.
+
+% ---------------------------------------------------------
+% CONCLUSION
+% ---------------------------------------------------------
+\section{Conclusion}
+
+Next–Generation Token (NGT) v3.2 establishes a fully formal,
+geometry-based description of a token as an autonomous structural
+organism. The theory constructs the organism within a
+four–dimensional Riemannian manifold, defines its metric and curvature
+fields, formalizes its deterministic evolution, and introduces a
+geometrically grounded temporal field and viability field. Collapse is
+not a failure of computation or external instability, but a fundamental
+geometric singularity arising from intrinsic metric degeneration and
+curvature divergence.
+
+A key insight of the framework is the strict separation between
+structure and appearance.  
+The structural manifold, evolution operator, memory, viability, and
+geometry are entirely autonomous and do not depend on any external
+economic process.  
+The observable economic layer emerges solely as a lower–dimensional
+projection that carries no causal influence on the organism.  
+This distinction enables a mathematically exact reconstruction theory,
+which recovers internal structural trajectories from economic shadows
+under deterministic constraints.
+
+The three–regime structural cycle (ACC $\rightarrow$ DEV $\rightarrow$
+REL) arises universally from geometric principles rather than external
+forces. Its duration contracts with diminishing viability and terminates
+continuously at the collapse boundary, where structural time
+extinguishes.  
+
+NGT v3.2 thus provides the first complete mathematical formulation of a
+token as a self–contained geometric organism.  
+The theory offers a foundation for simulation, structural diagnostics,
+reconstruction methods, and cross–compatibility with the wider Flexion
+structural sciences. Future work may extend the framework with
+continuous–time formulations, differential geometric refinements,
+variational principles for structural energy, and synthetic organisms
+constructed under modified axiom sets.
+
+The results presented here demonstrate that a token can be treated as a
+rigorously defined mathematical object with intrinsic geometry and
+internal laws of motion—an organism whose behavior is governed not by
+economic forces, but by structure itself.
+
+% ---------------------------------------------------------
+% REFERENCES (optional)
+% ---------------------------------------------------------
+\begin{thebibliography}{9}
+
+    \bibitem{flexion-genesis}
+    Author, \textit{Flexion Genesis Theory}, Version~1.0, (Year).
+    
+    \bibitem{flexion-framework}
+    Author, \textit{Flexion Framework}, Version~1.3, (Year).
+    
+    \bibitem{flexion-dynamics}
+    Author, \textit{Flexion Dynamics School}, Version~2.0, (Year).
+    
+    \bibitem{flexion-space}
+    Author, \textit{Flexion Space Theory}, Version~1.0, (Year).
+    
+    \bibitem{flexion-time}
+    Author, \textit{Flexion Time Theory}, Version~1.1, (Year).
+    
+    \bibitem{flexion-entanglement}
+    Author, \textit{Flexion Entanglement Theory}, Version~1.0, (Year).
+    
+    \bibitem{flexion-field}
+    Author, \textit{Flexion Field Theory}, Version~1.0, (Year).
+    
+    \bibitem{flexion-collapse}
+    Author, \textit{Flexion Collapse Geometry}, Version~1.0, (Year).
+    
+    \bibitem{deflexionization}
+    Author, \textit{Deflexionization Theory}, Version~3.0, (Year).
+    
+    \bibitem{ngt32}
+    Author, \textit{Next--Generation Token (NGT)}, Version~3.2, (Year).
+    
+\end{thebibliography}   
+
+\end{document}

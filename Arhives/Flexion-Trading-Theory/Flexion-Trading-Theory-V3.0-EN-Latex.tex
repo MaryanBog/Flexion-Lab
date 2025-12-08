@@ -1,0 +1,1146 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+
+\title{
+    \textbf{Flexion Trading Theory:}\\
+    \textbf{A Structural Framework for Geometric Market Dynamics}
+}
+\author{Marian Bohdanov}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Flexion Trading Theory (FTT) introduces a purely structural and deterministic
+    framework for understanding market dynamics by interpreting the price series
+    $P(t)$ as a geometric object with measurable curvature and torsion.  
+    Instead of modelling volatility, patterns, or statistical distributions,
+    FTT derives all trading decisions from discrete flexion derivatives---the
+    first-order price change $\Delta P(t)$, the curvature $C(t)$, and the torsion
+    $\Delta S(t)$---computed on an adaptive structural window.
+    
+    The theory defines two fundamental geometric events: the \textit{Flexion Entry
+    Window} (FEW), marking the initiation of a coherent bending regime, and the
+    \textit{Flexion Break} (FXB), marking torsional collapse and mandatory exit.
+    Both events arise solely from the intrinsic structure of $P(t)$ and require no
+    external indicators, thresholds, probabilistic filters, or empirical tuning.
+    
+    By combining flexion derivatives, structural orientation, and adaptive
+    stability filters, FTT provides a complete decision function (FTT\_API) that
+    maps observable ticker data to deterministic trading actions.  
+    This theoretical foundation enables the Flexion Trading Runtime Engine (FTRE),
+    a platform-independent executable specification that implements FTT without
+    modification.
+    
+    FTT establishes a universal geometric description of market impulses, offering
+    a reproducible, deterministic, and structurally grounded alternative to
+    classical technical analysis.  
+\end{abstract}    
+
+\section{Introduction}
+
+Financial markets are commonly modelled through statistical, stochastic, or
+indicator-based frameworks that rely on assumptions about volatility,
+distributional properties, or price patterns.  
+Flexion Trading Theory (FTT) departs fundamentally from these approaches by
+treating the market not as a stochastic generator of prices but as a
+\emph{geometric structure} evolving through time.
+
+In FTT, the only observable quantity is the discrete price sequence $P(t)$.
+From this sequence, the theory derives a hierarchy of \emph{flexion
+derivatives}---the first derivative $\Delta P(t)$ (directional motion), the
+second derivative $C(t)$ (curvature), and the third derivative $\Delta S(t)$
+(torsion).  
+These derivatives enable a precise structural interpretation of price
+evolution that is independent of volatility modeling, pattern recognition,
+machine learning, or traditional technical indicators.
+
+The core insight of FTT is that market impulses can be described entirely by
+geometric transitions in curvature and torsion.  
+Two events define the complete structural lifecycle of an impulse:  
+(1) the \emph{Flexion Entry Window} (FEW), marking the birth of a coherent
+bending regime aligned with structural orientation, and  
+(2) the \emph{Flexion Break} (FXB), marking the torsional collapse of that
+regime.  
+
+This perspective yields a deterministic trading framework in which signals
+arise solely from the intrinsic geometry of $P(t)$, without recourse to
+external parameters, empirical adjustment, or probabilistic filtering.  
+FTT thus stands as a fully reproducible, purely structural model of trading
+decision-making.
+
+Finally, the theory provides a formal mapping to the Flexion Trading Runtime
+Engine (FTRE), which implements FTT as a platform-independent computational
+engine.  
+This ensures that the structural logic of the theory remains faithful and
+consistent across trading environments, making FTT both a scientific framework
+and a practical foundation for automated trading systems.
+
+\section{Observable Domain}
+
+Flexion Trading Theory (FTT) operates exclusively on observable market data.
+No latent variables, statistical estimates, or external indicators enter the
+theory.  
+At every discrete event index $t$, the sole observable is the last traded
+price $P(t)$, from which all structural quantities are derived.
+
+\subsection{Price Series}
+
+The price series is defined as a discrete sequence
+\[
+P(t), \qquad t \in \mathbb{Z}^{+},
+\]
+where each index corresponds to a market tick.  
+FTT does not assume continuity, differentiability, or stochastic properties of
+the price series.  
+Only the ordering and numerical values of $P(t)$ are relevant for the theory.
+
+\subsection{Event Time Basis}
+
+The temporal structure of FTT is based on event order rather than physical
+time.  
+The sequence $t = 0,1,2,\ldots$ denotes successive observed price updates,
+regardless of their wall-clock spacing.  
+Thus, FTT remains invariant under irregular tick arrival, latency variations,
+and session-specific timing effects.
+
+\subsection{Internal Structural Window}
+
+FTT uses a finite rolling window of past observations,
+\[
+W(t) = \{ P(t-k) \mid k = 0,1,\dots, W(t) \},
+\]
+to compute flexion derivatives and structural quantities.  
+Unlike fixed-size windows common in technical analysis, $W(t)$ is \emph{adaptive}
+and determined by structural stability conditions (Section~\ref{sec:filters}).
+
+This windowing mechanism ensures that structural calculations remain meaningful
+even under noise or fluctuating market regimes.
+
+\subsection{Exclusion of External Inputs}
+
+FTT explicitly forbids the use of:
+
+\begin{itemize}[noitemsep]
+    \item volume data,
+    \item OHLC aggregations,
+    \item volatility estimates,
+    \item statistical indicators,
+    \item moving averages,
+    \item configurable thresholds or empirical parameters.
+\end{itemize}
+
+All structural features arise exclusively from observable price data and its
+discrete variations.  
+This restriction ensures full theoretical purity and reproducibility.
+
+\subsection{Closed Observable System}
+
+The observable domain of FTT is a closed system:
+\[
+P(t) \;\longrightarrow\; \Delta P(t),\, C(t),\, \Delta S(t)
+\;\longrightarrow\; K(t)
+\;\longrightarrow\; \text{Events}
+\;\longrightarrow\; \text{FTT\_API}.
+\]
+
+Every quantity used by the theory is either directly observable or derived
+from $P(t)$.  
+No external assumptions or market-specific features influence the structural
+logic of the model.
+
+\section{Flexion Derivatives}
+\label{sec:flexion-derivatives}
+
+Flexion Trading Theory interprets market structure through discrete geometric
+derivatives of the observable price series.  
+These derivatives capture directional motion, curvature, and torsional
+instability, forming the minimal and complete structural basis of FTT.
+
+All derivatives are defined on the adaptive structural window $W(t)$ described
+in Section~\ref{sec:filters}.  
+No smoothing, averaging, interpolation, or external filtering is permitted.
+
+\subsection{First Flexion Derivative: $\Delta P(t)$}
+
+The first derivative measures instantaneous directional change:
+\[
+\Delta P(t) = P(t) - P(t-1).
+\]
+
+Properties:
+\begin{itemize}[noitemsep]
+    \item $\mathrm{sign}(\Delta P(t))$ indicates local upward or downward motion,
+    \item $|\Delta P(t)|$ reflects impulse intensity,
+    \item provides the foundation for higher-order derivatives.
+\end{itemize}
+
+$\Delta P(t)$ is the elemental geometric primitive from which curvature and
+torsion emerge.
+
+\subsection{Second Flexion Derivative: $C(t)$}
+
+The second derivative,
+\[
+C(t) = \Delta P(t) - \Delta P(t-1),
+\]
+represents geometric curvature of the price trajectory.
+
+Interpretation:
+\begin{itemize}[noitemsep]
+    \item $C(t) > 0$ --- upward (convex) bending,
+    \item $C(t) < 0$ --- downward (concave) bending,
+    \item $C(t) = 0$ --- locally linear structural motion.
+\end{itemize}
+
+Curvature is the primary driver of structural orientation $K(t)$.
+
+\subsection{Third Flexion Derivative: $\Delta S(t)$}
+
+The third derivative,  
+\[
+\Delta S(t) = C(t) - C(t-1),
+\]
+measures torsion: the rate at which curvature changes direction.
+
+Interpretation:
+\begin{itemize}[noitemsep]
+    \item peaks of $\Delta S(t)$ signify structural instability,
+    \item extremal values correspond to torsion collapse (FXB),
+    \item zero-crossings mark transitions between bending regimes.
+\end{itemize}
+
+$\Delta S(t)$ is the core geometric quantity governing exit logic.
+
+\subsection{Discrete Derivative Properties}
+
+All flexion derivatives satisfy strict locality:
+
+\[
+\Delta P(t),\, C(t),\, \Delta S(t)
+    \quad \text{depend only on} \quad
+    P(t), P(t-1), P(t-2), P(t-3).
+\]
+
+No additional memory or long-range dependencies are allowed.  
+This guarantees:
+\begin{itemize}[noitemsep]
+    \item determinism,
+    \item reproducibility across platforms,
+    \item independence from tick-rate variation.
+\end{itemize}
+
+\subsection{Minimal Structural Basis}
+
+The triplet
+\[
+(\Delta P(t),\, C(t),\, \Delta S(t))
+\]
+forms the minimal complete set of structural descriptors of price evolution.
+
+No additional derivatives or transformations are required to define:
+\begin{itemize}[noitemsep]
+    \item structural orientation,
+    \item initiation events (FEW),
+    \item collapse events (FXB),
+    \item the full decision function (FTT\_API).
+\end{itemize}
+
+Thus the flexion derivatives constitute the canonical geometric representation
+of market structure in FTT.
+
+\section{Structural Orientation}
+\label{sec:orientation}
+
+Structural orientation $K(t)$ defines the dominant geometric direction of
+market motion.  
+It is derived exclusively from curvature $C(t)$ and reflects the persistent
+bias of bending within the adaptive structural window $W(t)$.
+
+Orientation acts as a directional stability mechanism:  
+it ensures that only structurally meaningful bending regimes produce valid
+entry events.  
+Noise-driven curvature fluctuations, lacking geometric persistence, are
+suppressed by $K(t)$.
+
+\subsection{Definition of Structural Orientation}
+
+FTT defines orientation as the sign of cumulative curvature across the adaptive
+window:
+\[
+K(t) = \mathrm{sign}\!\left( \sum_{i=0}^{W(t)} C(t-i) \right).
+\]
+
+Thus:
+\[
+K(t) =
+\begin{cases}
++1, & \text{if upward curvature dominates}, \\
+-1, & \text{if downward curvature dominates}, \\
+0,  & \text{if curvature lacks a stable direction}.
+\end{cases}
+\]
+
+This definition ensures that $K(t)$ emerges directly from the underlying
+geometry of $P(t)$.
+
+\subsection{Geometric Interpretation}
+
+\paragraph{Upward Orientation ($K=+1$).}
+Curvature values tend to be positive, indicating a convex structural regime.
+Upward flexion signals (FEW\_UP) are permitted.
+
+\paragraph{Downward Orientation ($K=-1$).}
+Curvature values tend to be negative, indicating a concave structural regime.
+Downward flexion signals (FEW\_DN) are permitted.
+
+\paragraph{Neutral Orientation ($K=0$).}
+Curvature lacks a stable sign; the structure is transitional or dominated by
+micro-noise.  
+All FEW events are suppressed in this regime.
+
+\subsection{Role of Orientation in Event Logic}
+
+Orientation imposes necessary constraints on entry logic:
+
+\begin{itemize}[noitemsep]
+    \item FEW may occur only when $K(t) \neq 0$,
+    \item FEW direction must match $K(t)$,
+    \item opposite-direction curvature changes are ignored as noise.
+\end{itemize}
+
+This geometric filter prevents premature or invalid entries triggered by
+microscopic curvature fluctuations.
+
+\subsection{Relation to Torsion and Collapse}
+
+While orientation governs \emph{entry} (FEW) conditions, it has no influence
+on \emph{exit} (FXB) conditions.  
+Torsion collapse is a symmetric geometric event detected solely by $\Delta S(t)$.
+
+The division of roles:
+\begin{itemize}[noitemsep]
+    \item $K(t)$ --- determines directional structural validity,
+    \item $\Delta S(t)$ --- determines collapse of bending,
+\end{itemize}
+ensures that FTT maintains both geometric purity and practical structural
+stability.
+
+\subsection{Deterministic and Parameter-Free}
+
+Orientation is computed without:
+\begin{itemize}[noitemsep]
+    \item smoothing averages,
+    \item thresholds,
+    \item tunable parameters,
+    \item probabilistic estimates.
+\end{itemize}
+
+It depends only on the discrete curvature values within $W(t)$ and is therefore
+deterministic, reproducible, and invariant across platforms.
+
+\section{Structural Events}
+\label{sec:events}
+
+Flexion Trading Theory defines market transitions through two fundamental
+structural events derived exclusively from the geometric behavior of the
+flexion derivatives.  
+These events describe the birth and collapse of coherent bending regimes in
+the price trajectory:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{FEW} --- Flexion Entry Window (structural initiation),
+    \item \textbf{FXB} --- Flexion Break (structural collapse).
+\end{itemize}
+
+No additional event types exist in the theory.  
+FEW marks the beginning of a structurally coherent impulse, whereas FXB marks
+its termination at torsion extremum.  
+Together they form the complete structural lifecycle of a trade.
+
+\subsection{FEW: Flexion Entry Window}
+
+A FEW event represents the moment when the market enters a new bending regime
+aligned with the dominant structural orientation $K(t)$.
+
+\subsubsection*{Formal Definition}
+
+A FEW event occurs at time $t$ if and only if all the following conditions hold:
+
+\begin{enumerate}[label=(\arabic*), noitemsep]
+    \item \textbf{Orientation Alignment:}
+    \[
+    \mathrm{sign}(C(t)) = K(t), \qquad K(t) \neq 0.
+    \]
+
+    \item \textbf{Curvature Emergence:}
+    \[
+    C(t-1) = 0, \qquad C(t) \neq 0.
+    \]
+    This ensures FEW corresponds to the \emph{first} moment of bending.
+
+    \item \textbf{Curvature Strengthening:}
+    \[
+    C(t) > C(t-1) \quad \text{if } K(t)=+1,
+    \]
+    \[
+    C(t) < C(t-1) \quad \text{if } K(t)=-1.
+    \]
+\end{enumerate}
+
+Thus:
+\[
+\text{FEW\_UP} \longleftrightarrow K(t)=+1,
+\qquad
+\text{FEW\_DN} \longleftrightarrow K(t)=-1.
+\]
+
+\subsubsection*{Interpretation}
+
+FEW corresponds to:
+\begin{itemize}[noitemsep]
+    \item the birth of curvature,
+    \item the initiation of geometric bending,
+    \item the structurally valid entry into a market impulse.
+\end{itemize}
+
+FEW is never triggered by:
+\begin{itemize}[noitemsep]
+    \item price patterns,
+    \item volatility changes,
+    \item statistical indicators,
+    \item oscillatory micro-noise.
+\end{itemize}
+
+It arises purely from the intrinsic geometry of $P(t)$.
+
+\subsection{FXB: Flexion Break}
+
+FXB marks the moment when the bending regime becomes unstable and collapses.
+It is defined by the behavior of torsion $\Delta S(t)$.
+
+\subsubsection*{Formal Definition}
+
+A FXB event occurs at time $t$ if and only if:
+
+\begin{enumerate}[label=(\arabic*), noitemsep]
+    \item \textbf{Torsion Extremum:} $\Delta S(t)$ is a strict local extremum:
+    \[
+    \Delta S(t-1) < \Delta S(t) > \Delta S(t+1)
+    \quad \text{(peak)},
+    \]
+    \[
+    \Delta S(t-1) > \Delta S(t) < \Delta S(t+1)
+    \quad \text{(trough)}.
+    \]
+
+    \item \textbf{Non-Degeneracy:}
+    \[
+    \Delta S(t) \neq \Delta S(t-1), \qquad
+    \Delta S(t) \neq \Delta S(t+1).
+    \]
+\end{enumerate}
+
+FXB is \emph{independent} of orientation:
+\[
+K(t) \;\text{plays no role in FXB detection}.
+\]
+
+\subsubsection*{Interpretation}
+
+FXB corresponds to:
+\begin{itemize}[noitemsep]
+    \item the point of maximum torsional instability,
+    \item the geometric collapse of bending,
+    \item the mandatory structural exit of a trade.
+\end{itemize}
+
+FXB always terminates the current structural cycle.
+
+\subsection{Structural Cycle Consistency}
+
+The two events form a strict geometric sequence:
+\[
+\text{FEW}(t_0) \;\longrightarrow\; \text{FXB}(t_1),
+\qquad t_1 > t_0.
+\]
+
+The following invariants must hold:
+\begin{itemize}[noitemsep]
+    \item no FEW may occur after FEW and before FXB,
+    \item no FXB may occur without a preceding FEW,
+    \item each FEW must eventually be followed by an FXB,
+    \item exactly one FEW and one FXB per structural cycle.
+\end{itemize}
+
+These invariants guarantee a well-defined geometric lifecycle of market
+impulses.
+
+\section{Flexion Windows and Stability Filters}
+\label{sec:filters}
+
+Flexion Trading Theory employs an adaptive structural window and a set of
+deterministic stability filters to ensure that structural events (FEW, FXB)
+are computed on a geometrically meaningful basis rather than on raw
+tick-level noise.  
+These mechanisms do not introduce smoothing, heuristics, or empirical tuning;
+instead, they preserve the structural purity of the theory while enforcing
+numerical stability.
+
+The adaptive window $W(t)$ governs the locality of structural calculations,
+while the filters $\mu(t)$, $M(t)$, and $\Theta(t)$ ensure that FEW events are
+triggered only when market geometry exhibits coherent bending.
+
+\subsection{Adaptive Structural Window $W(t)$}
+
+The structural window $W(t)$ defines how many past observations are used to
+evaluate curvature, orientation, and stability.  
+Unlike fixed lookback windows typical of technical indicators, $W(t)$ expands
+or contracts based on structural consistency.
+
+\subsubsection*{Definition}
+
+$W(t)$ is defined as the minimum window length for which curvature sign
+stabilizes:
+\[
+W(t)
+= \min \left\{ k \;:\;
+\mathrm{sign}\!\left( \sum_{i=0}^{k} C(t-i) \right)
+=
+\mathrm{sign}\!\left( \sum_{i=0}^{k+1} C(t-i) \right)
+\right\}.
+\]
+
+Interpretation:
+\begin{itemize}[noitemsep]
+    \item small $W(t)$ (3--7 ticks) indicates stable bending,
+    \item large $W(t)$ indicates geometric inconsistency or noise.
+\end{itemize}
+
+The window adapts purely from geometric structure and introduces no external
+parameters.
+
+\subsection{Magnitude Filter $\mu(t)$}
+
+The magnitude filter ensures that only structurally meaningful impulses
+trigger FEW events.  
+It is defined as:
+\[
+\mu(t) = |\Delta P(t)|.
+\]
+
+The FEW event is allowed only when:
+\[
+\mu(t) > \mu_{\min}(W(t)),
+\]
+where $\mu_{\min}(W)$ grows with window size.  
+This requirement suppresses micro-fluctuations that occur during high-noise
+conditions.
+
+\subsection{Curvature Stability Filter $M(t)$}
+
+The curvature stability filter measures the average magnitude of curvature
+over the structural window:
+\[
+M(t) = \frac{1}{W(t)+1}
+\sum_{i=0}^{W(t)} |C(t-i)|.
+\]
+
+FEW is permitted only when instantaneous curvature exceeds a scaled stability
+threshold:
+\[
+|C(t)| > \alpha \, M(t),
+\]
+with $\alpha$ representing the minimal structural dominance required for
+coherent bending.  
+This filter prevents FEW from triggering during geometric inconsistencies.
+
+\subsection{Temporal Coherence Filter $\Theta(t)$}
+
+The temporal coherence filter ensures that torsion dynamics remain meaningful
+within the structural window.  
+It is defined as:
+\[
+\Theta(t) = \frac{W(t)}{|\Delta S(t)| + \varepsilon},
+\]
+where $\varepsilon$ is the smallest nonzero torsion increment imposed by the
+discrete price grid.
+
+Interpretation:
+\begin{itemize}[noitemsep]
+    \item small $\Theta(t)$ indicates strong and coherent torsion,
+    \item large $\Theta(t)$ indicates degeneracy or noise.
+\end{itemize}
+
+FEW is suppressed when $\Theta(t)$ exceeds an upper coherence bound
+$\Theta_{\max}$.
+
+\subsection{Summary of Stability Filters}
+
+A FEW event is valid only when:
+\begin{itemize}[noitemsep]
+    \item orientation alignment is satisfied ($K(t) \neq 0$),
+    \item curvature direction agrees with orientation,
+    \item curvature is strengthening,
+    \item impulse magnitude is sufficient: $\mu(t) > \mu_{\min}(W)$,
+    \item curvature is coherent: $|C(t)| > \alpha M(t)$,
+    \item torsion is temporally consistent: $\Theta(t) < \Theta_{\max}$.
+\end{itemize}
+
+These filters do not alter the structural meaning of the derivatives; rather,
+they guarantee that flexion events reflect real geometric transitions rather
+than microstructural noise.
+
+\section{Flexion Trading Structural Cycle}
+\label{sec:cycle}
+
+The Flexion Trading Structural Cycle (FTSC) is the complete geometric lifecycle
+of a market impulse as defined by Flexion Trading Theory.  
+It encapsulates the transition from structural initiation to structural
+collapse through the interaction of curvature, torsion, and orientation.
+
+The cycle consists of three deterministic stages:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Structural Initiation (FEW)},  
+    \item \textbf{Structural Propagation},  
+    \item \textbf{Structural Collapse (FXB)}.
+\end{enumerate}
+
+This cycle governs the lifecycle of every valid trade in FTT.
+
+\subsection{Stage 1: Structural Initiation (FEW)}
+
+Structural initiation begins when the market enters a coherent bending regime
+aligned with the dominant orientation $K(t)$.
+
+A FEW event requires:
+\begin{itemize}[noitemsep]
+    \item curvature emerging from linearity ($C(t-1)=0$, $C(t)\neq0$),
+    \item curvature strengthening in the direction of $K(t)$,
+    \item all stability filters satisfied,
+    \item nonzero orientation ($K(t)\neq0$).
+\end{itemize}
+
+At FEW:
+\begin{itemize}[noitemsep]
+    \item the bending regime begins,
+    \item the structural impulse becomes coherent,
+    \item a trade is \emph{opened} in the direction of $K(t)$.
+\end{itemize}
+
+Thus:
+\[
+\text{FEW\_UP} \rightarrow \text{long position}, \qquad
+\text{FEW\_DN} \rightarrow \text{short position}.
+\]
+
+\subsection{Stage 2: Structural Propagation}
+
+During propagation, the market structure evolves in the direction established
+at FEW.  
+The structure remains coherent under the following invariants:
+
+\begin{enumerate}[label=(\arabic*), noitemsep]
+    \item orientation must retain sign: $\mathrm{sign}(K(t)) = \mathrm{sign}(K(t_0))$,
+    \item curvature must preserve direction relative to $K(t)$,
+    \item no torsion extremum may occur ($\Delta S(t)$ not at local peak/trough),
+    \item stability filters must remain satisfied.
+\end{enumerate}
+
+Propagation represents the geometric ``life'' of the structural impulse.  
+No additional entries may occur during this phase.
+
+\subsection{Stage 3: Structural Collapse (FXB)}
+
+Structural collapse occurs when torsion reaches a strict local extremum,
+indicating instability in the curvature regime.
+
+A FXB event is detected when:
+\[
+\Delta S(t-1) < \Delta S(t) > \Delta S(t+1)
+\quad \text{or} \quad
+\Delta S(t-1) > \Delta S(t) < \Delta S(t+1),
+\]
+with non-degeneracy constraints
+\[
+\Delta S(t) \neq \Delta S(t-1), \qquad
+\Delta S(t) \neq \Delta S(t+1).
+\]
+
+At FXB:
+\begin{itemize}[noitemsep]
+    \item curvature coherence collapses,
+    \item the structural impulse terminates,
+    \item the open position must be closed.
+\end{itemize}
+
+FXB is direction-agnostic and independent of $K(t)$.
+
+\subsection{Cycle Invariants}
+
+Each structural cycle satisfies:
+
+\begin{itemize}[noitemsep]
+    \item exactly one FEW per cycle,
+    \item exactly one FXB per cycle,
+    \item FEW must precede FXB,
+    \item no FEW may occur between FEW and FXB,
+    \item no FXB may occur before an active FEW.
+\end{itemize}
+
+These invariants ensure that the FTSC forms a closed and deterministic
+geometric system:
+\[
+\text{FEW} \;\longrightarrow\; \text{Propagation} \;\longrightarrow\; \text{FXB}.
+\]
+
+\section{Formal Decision Function (FTT\_API)}
+\label{sec:api}
+
+The Formal Decision Function, denoted FTT\_API, is the canonical mapping from
+observable market data to discrete structural trading signals.  
+It provides a complete, deterministic rule set for interpreting geometric
+transitions in the price series using only flexion derivatives and the
+adaptive structural filters.
+
+FTT\_API outputs exactly one action at each event index $t$:
+\[
+\text{FTT\_API}(t) \in \{0, 1, 2, 3\},
+\]
+representing:
+\[
+0=\text{NONE},\qquad 
+1=\text{FEW\_UP},\qquad
+2=\text{FEW\_DN},\qquad
+3=\text{FXB}.
+\]
+
+\subsection{Input Domain}
+
+The only external input to FTT\_API is the observable price sequence
+\[
+P(t),\; P(t-1),\ldots, P(t-W(t)).
+\]
+
+All internal structural quantities used by the API are computed from $P(t)$:
+\[
+\Delta P(t),\; C(t),\; \Delta S(t),\; K(t),\; W(t),\; 
+\mu(t),\; M(t),\; \Theta(t).
+\]
+
+These quantities are never externally supplied or tuned.
+
+\subsection{Event Evaluation Order}
+
+FTT imposes a strict priority hierarchy when evaluating structural events:
+
+\begin{enumerate}[label=(\arabic*), noitemsep]
+    \item \textbf{FXB} --- collapse event (highest priority),
+    \item \textbf{FEW} --- initiation event,
+    \item \textbf{NONE} --- fallback when no structural transition occurs.
+\end{enumerate}
+
+The priority ordering ensures that torsion collapse (FXB) always overrides
+initiation (FEW), reflecting its structural significance.
+
+\subsection{FXB Logic}
+
+A FXB event is triggered when torsion reaches a strict extremum:
+\[
+\Delta S(t-1) < \Delta S(t) > \Delta S(t+1)
+\]
+or
+\[
+\Delta S(t-1) > \Delta S(t) < \Delta S(t+1),
+\]
+with non-degeneracy constraints:
+\[
+\Delta S(t)\neq\Delta S(t-1), \qquad
+\Delta S(t)\neq\Delta S(t+1).
+\]
+
+If FXB is detected:
+\[
+\text{FTT\_API}(t) = 3.
+\]
+
+\subsection{FEW Logic}
+
+A FEW event is triggered when curvature begins a coherent bending regime in
+the direction of $K(t)$ and all stability filters are satisfied.
+
+Formally:
+
+\begin{enumerate}[label=(\arabic*), noitemsep]
+    \item $\mathrm{sign}(C(t)) = K(t)$ and $K(t)\neq0$,
+    \item $C(t-1)=0$, $C(t)\neq0$,
+    \item strengthening condition:
+    \[
+    C(t) > C(t-1) \quad \text{if } K(t)=+1,
+    \]
+    \[
+    C(t) < C(t-1) \quad \text{if } K(t)=-1,
+    \]
+    \item stability filters satisfied:
+    \[
+    \mu(t) > \mu_{\min}(W(t)),\qquad
+    |C(t)| > \alpha M(t),\qquad
+    \Theta(t) < \Theta_{\max}.
+    \]
+\end{enumerate}
+
+If FEW conditions hold:
+\[
+\text{FTT\_API}(t) =
+\begin{cases}
+1, & K(t)=+1,\\[4pt]
+2, & K(t)=-1.
+\end{cases}
+\]
+
+\subsection{NONE Logic}
+
+If neither FEW nor FXB conditions are satisfied:
+\[
+\text{FTT\_API}(t) = 0.
+\]
+
+NONE indicates that the structure remains either linear, transitional, or
+propagating without collapse.
+
+\subsection{Determinism and Purity}
+
+FTT\_API satisfies the following formal guarantees:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Determinism:} identical price sequences produce identical outputs.
+    \item \textbf{Locality:} decisions depend only on recent values within $W(t)$.
+    \item \textbf{Purity:} no stochastic behavior, smoothing, or empirical tuning.
+    \item \textbf{Completeness:} every structural state maps to exactly one output.
+\end{itemize}
+
+Thus, FTT\_API defines a closed, fully deterministic geometric decision system.
+
+\section{Mapping to Runtime Engine (FTRE)}
+\label{sec:ftre}
+
+The Flexion Trading Runtime Engine (FTRE) is the canonical executable
+implementation of Flexion Trading Theory.  
+Its purpose is to translate the mathematical constructs of FTT into a
+deterministic, platform-independent computational process.  
+FTRE introduces no new logic and uses no additional parameters; every step is
+a direct operationalization of the theoretical rules defined in
+Sections~\ref{sec:flexion-derivatives}–\ref{sec:api}.
+
+FTRE ensures that FTT remains:
+\begin{itemize}[noitemsep]
+    \item reproducible across environments,
+    \item invariant under platform-specific differences,
+    \item free from heuristics, smoothing, or stochastic behavior,
+    \item strictly deterministic given identical price sequences.
+\end{itemize}
+
+\subsection{Architectural Principles}
+
+The runtime engine adheres to three non-negotiable invariants:
+
+\paragraph{Purity.}
+All structural quantities computed inside FTRE
+\[
+\Delta P(t),\;
+C(t),\;
+\Delta S(t),\;
+K(t),\;
+W(t),\;
+\mu(t),\;
+M(t),\;
+\Theta(t)
+\]
+must be derived exclusively from $P(t)$ and its discrete differences.
+
+\paragraph{Determinism.}
+For any two identical price sequences, FTRE must produce identical sequences of
+structural events and API outputs.  
+No randomness, smoothing, or adaptive heuristics may influence decision
+generation.
+
+\paragraph{Canonical Mapping.}
+FTRE must implement FTT\_API exactly as defined in
+Section~\ref{sec:api}, without alteration or extension of event logic.
+
+\subsection{Internal Processing Pipeline}
+
+For each new observed price $P(t)$, FTRE executes the following deterministic
+pipeline:
+
+\begin{enumerate}[label=\textbf{Step \arabic*:}, leftmargin=2cm]
+
+    \item \textbf{Window Update}  
+    Append $P(t)$ to local memory; adapt $W(t)$ via curvature stability;  
+    discard values outside the structural window.
+
+    \item \textbf{Compute Flexion Derivatives}  
+    \[
+    \Delta P(t) = P(t) - P(t-1),
+    \]
+    \[
+    C(t) = \Delta P(t) - \Delta P(t-1),
+    \]
+    \[
+    \Delta S(t) = C(t) - C(t-1).
+    \]
+
+    \item \textbf{Compute Structural Orientation}  
+    \[
+    K(t) = \mathrm{sign}\!\left( \sum_{i=0}^{W(t)} C(t-i) \right).
+    \]
+
+    \item \textbf{Compute Stability Filters}  
+    \[
+    \mu(t) = |\Delta P(t)|,
+    \]
+    \[
+    M(t) = \frac{1}{W(t)+1}\sum_{i=0}^{W(t)} |C(t-i)|,
+    \]
+    \[
+    \Theta(t) = \frac{W(t)}{|\Delta S(t)| + \varepsilon }.
+    \]
+
+    \item \textbf{Event Evaluation}  
+    Evaluate FXB and FEW using the strict priority order defined in
+    Section~\ref{sec:api}.
+
+    \item \textbf{State Transition}  
+    Update the structural trading state (FLAT, LONG, SHORT) using deterministic
+    transition rules.
+
+    \item \textbf{Output Structural Code}  
+    Return the integer action code:
+    \[
+    0 = \text{NONE},\quad
+    1 = \text{FEW\_UP},\quad
+    2 = \text{FEW\_DN},\quad
+    3 = \text{FXB}.
+    \]
+
+\end{enumerate}
+
+This pipeline contains no conditional branches beyond those defined by the
+theory.  
+All computations involve only primitive arithmetic operations and minimal
+memory, ensuring high performance and platform independence.
+
+\subsection{Canonical Public API}
+
+FTRE exposes exactly one public method:
+
+\[
+\texttt{int FTRE\_Evaluate(double price, int timestamp);}
+\]
+
+which returns:
+\[
+0,\;1,\;2,\;3
+\]
+according to the structural state at time $t$.  
+No additional outputs, diagnostic flags, or auxiliary data streams are allowed
+at the API level.  
+Any debugging or logging functionality must remain strictly optional and
+external.
+
+\subsection{Implementation Independence}
+
+FTRE must produce identical results across:
+
+\begin{itemize}[noitemsep]
+    \item programming languages (C++, Python, MQL4/5),
+    \item operating systems (Linux, Windows, macOS),
+    \item brokers and trading platforms,
+    \item live and historical price feeds,
+    \item varying tick arrival rates or latencies.
+\end{itemize}
+
+Platform differences must not influence structural outcomes because FTT
+depends only on the ordering and values of $P(t)$.
+
+\subsection{Completeness of Mapping}
+
+Every component of FTRE corresponds directly to a theoretical construct:
+
+\[
+\begin{aligned}
+\text{Derivative Engine} &\;\longleftrightarrow\; \text{Section~3}, \\
+\text{Orientation Engine} &\;\longleftrightarrow\; \text{Section~4}, \\
+\text{Event Engine} &\;\longleftrightarrow\; \text{Section~5}, \\
+\text{Filter Engine} &\;\longleftrightarrow\; \text{Section~6}, \\
+\text{Cycle Logic} &\;\longleftrightarrow\; \text{Section~7}, \\
+\text{Decision Function} &\;\longleftrightarrow\; \text{Section~8}. \\
+\end{aligned}
+\]
+
+No additional logic exists beyond the theory.  
+FTRE is therefore the authoritative executable reference of Flexion Trading
+Theory.
+
+\section{Discussion}
+\label{sec:discussion}
+
+Flexion Trading Theory introduces a novel geometric framework for analyzing
+market dynamics, diverging from both traditional technical analysis and
+statistical modelling paradigms.  
+Rather than relying on volatility estimates, oscillators, or probabilistic
+assumptions, FTT extracts structure directly from the discrete evolution of
+price through flexion derivatives.  
+This perspective yields several important theoretical and practical
+implications.
+
+\subsection{A Deterministic Alternative to Classical Approaches}
+
+Classical trading methodologies often incorporate:
+\begin{itemize}[noitemsep]
+    \item smoothed indicators,
+    \item stochastic models,
+    \item probabilistic forecasts,
+    \item heuristic rules or empirical tuning.
+\end{itemize}
+
+These approaches introduce inherent uncertainty and platform dependence.
+In contrast, FTT is entirely deterministic:  
+given identical price sequences, it produces identical decisions across all
+environments.  
+This determinism eliminates ambiguity and enables reproducibility across
+implementations, making FTT suitable for rigorous scientific and engineering
+contexts.
+
+\subsection{Structural Interpretation of Market Impulses}
+
+By interpreting price evolution as a geometric object, FTT reframes market
+impulses as structural transitions:
+\begin{itemize}[noitemsep]
+    \item FEW corresponds to the birth of curvature (structural initiation),
+    \item FXB corresponds to torsional extremum (structural collapse).
+\end{itemize}
+
+This geometric viewpoint provides a coherent explanation for market movements
+without appealing to:
+\begin{itemize}[noitemsep]
+    \item behavioral assumptions,
+    \item statistical noise models,
+    \item pattern recognition templates.
+\end{itemize}
+
+Flexion structure becomes the lens through which market motion is organized and
+understood.
+
+\subsection{Role of Adaptive Windows and Filters}
+
+The adaptive structural window $W(t)$ and the stability filters
+$\mu(t)$, $M(t)$, and $\Theta(t)$ serve an essential purpose:  
+they preserve the geometric purity of flexion derivatives while ensuring that
+structural events reflect meaningful market behavior rather than
+microstructural noise.
+
+FTT avoids the pitfalls of both extremes:
+\begin{itemize}[noitemsep]
+    \item it does not smooth or distort the underlying data,
+    \item yet it prevents overreaction to insignificant fluctuations.
+\end{itemize}
+
+This balance enables FTT to operate effectively on high-frequency tick data
+while maintaining a principled theoretical foundation.
+
+\subsection{Universality and Platform Independence}
+
+Because FTT depends solely on the ordering and values of $P(t)$, and not on
+wall-clock time or platform-specific features, it remains invariant across:
+\begin{itemize}[noitemsep]
+    \item brokers,
+    \item executions speeds,
+    \item feed irregularities,
+    \item historical and live data environments.
+\end{itemize}
+
+This universality is especially important for reproducible research and for
+deploying FTRE across heterogeneous computational infrastructures.
+
+\subsection{Limitations and Scope}
+
+FTT does not attempt to model:
+\begin{itemize}[noitemsep]
+    \item long-term price trends,
+    \item macroeconomic factors,
+    \item liquidity conditions,
+    \item spread, slippage, or execution constraints.
+\end{itemize}
+
+Its scope is purely structural:  
+FTT describes \emph{when} bending begins and \emph{when} it collapses.
+
+Execution-layer considerations, portfolio interactions, risk management, and
+market frictions lie outside the theory itself but can be integrated in
+systems that consume FTT\_API outputs.
+
+\subsection{Implications for Algorithmic Trading}
+
+The strict determinism, minimalism, and universality of FTT make it well suited
+for:
+\begin{itemize}[noitemsep]
+    \item automated strategy design,
+    \item real-time execution engines,
+    \item scientific backtesting,
+    \item reproducible performance comparisons.
+\end{itemize}
+
+Because FTRE can be implemented as a platform-independent library, FTT can
+serve as a stable mathematical core in high-frequency environments, research
+platforms, and production trading systems.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Flexion Trading Theory provides a deterministic and structurally grounded
+framework for interpreting market dynamics through the geometry of price
+evolution.  
+By deriving curvature, torsion, and orientation directly from the discrete
+sequence of observable prices, FTT avoids reliance on stochastic assumptions,
+parameter tuning, or traditional technical indicators.  
+Instead, market behavior is described in terms of coherent bending regimes and
+their eventual collapse.
+
+The theory defines a complete structural lifecycle through two fundamental
+events:  
+\begin{itemize}[noitemsep]
+    \item \textbf{FEW} --- initiation of a bending regime,  
+    \item \textbf{FXB} --- torsional collapse and termination.
+\end{itemize}
+
+These events, combined with adaptive windows and purely geometric stability
+filters, yield a formal decision function that maps raw price data to trading
+signals with full determinism and platform independence.
+
+Furthermore, the theory maps directly and unambiguously to the Flexion Trading
+Runtime Engine (FTRE), ensuring consistent and faithful implementation across
+all environments.  
+This separation between theory and execution preserves scientific rigor while
+enabling robust engineering applications.
+
+FTT thus establishes a unified geometric viewpoint on short-term market
+structure, offering a reproducible alternative to probabilistic or heuristic
+approaches.  
+Its minimal assumptions, strict locality, and computational clarity provide a
+solid theoretical foundation for future developments in algorithmic trading,
+structural market research, and automated decision systems.
+
+\end{document}
