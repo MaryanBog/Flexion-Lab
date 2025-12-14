@@ -1,0 +1,1077 @@
+\documentclass[11pt,a4paper]{article}
+
+% -------------------------------------------------
+% Packages
+% -------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{hyperref}
+\usepackage{cite}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% -------------------------------------------------
+% Metadata
+% -------------------------------------------------
+\title{\textbf{Engineering Control Theory:}\\
+The FXI--$\Delta$--E Deviation-Based Control Architecture}
+
+\author{
+Maryan Bogdanov\\
+\texttt{ceo@flexionu.com}
+}
+
+\date{\today}
+
+% -------------------------------------------------
+\begin{document}
+\maketitle
+
+% -------------------------------------------------
+\begin{abstract}
+Engineering Control Theory (ECT), also referred to as the FXI--$\Delta$--E control method,
+defines a practical nonlinear approach for stabilizing engineered systems using
+deviation-based feedback.
+
+The method operates on measurable engineering deviations and achieves stabilization
+through geometric contraction rather than explicit plant modeling or dynamic cancellation.
+This paper presents the theoretical formulation, architectural structure, operator roles,
+and stability intuition of the FXI--$\Delta$--E control framework, with emphasis on
+implementability and real-world applicability.
+\end{abstract}
+
+% -------------------------------------------------
+\section{Introduction}
+
+Control of real-world engineering systems is often challenged by incomplete models,
+nonlinear dynamics, actuator constraints, and measurement noise.
+Classical control approaches typically rely on explicit plant modeling,
+linearization, or cancellation of system dynamics,
+which may be impractical or unreliable in many applied settings.
+
+Engineering Control Theory (ECT) addresses this problem by adopting
+a deviation-centric perspective.
+Instead of attempting to compensate or invert plant dynamics,
+ECT focuses on shaping and contracting the measurable deviation between
+a desired reference and the current system state.
+Stabilization is achieved through repeated geometric contraction of this deviation,
+rather than through model-based prediction or pole placement.
+
+The FXI--$\Delta$--E control architecture formalizes this idea as a deterministic,
+memoryless mapping evaluated at discrete update steps.
+At each step, the current deviation is embedded into a transformed space,
+contracted, mapped back into the control domain,
+and converted into an actuator command.
+This process does not accumulate internal controller state
+and does not require knowledge of the internal physics of the plant.
+
+The objective of ECT is intentionally modest and engineering-oriented:
+to achieve predictable, bounded, and repeatable reduction of deviation
+under realistic implementation constraints.
+The theory does not attempt to model structural life,
+viability, or irreversible system behavior,
+and it does not introduce normative or ontological semantics.
+Such separation is deliberate and fundamental.
+
+ECT is applicable to a wide range of practical control problems,
+including electromechanical actuation, robotic systems,
+unmanned aerial vehicles, industrial automation,
+and numerical or cyber-physical processes.
+Its simplicity, determinism, and lack of dependence on plant models
+make it particularly suitable for embedded and real-time systems.
+
+This paper presents the FXI--$\Delta$--E control method as an applied engineering theory.
+The contributions include a clear architectural formulation,
+operator admissibility conditions, stability intuition,
+and practical implementation considerations.
+A reference software implementation is provided as a reproducibility artifact,
+demonstrating the operational validity of the proposed framework.
+
+% -------------------------------------------------
+\section{Engineering Problem Definition}
+
+This paper considers a classical engineering control problem in which a controlled system
+(plant) exists with externally defined dynamics, sensors, and actuators.
+The internal physics of the plant may be linear or nonlinear, known or partially unknown.
+The objective is to reduce a measurable deviation between a desired reference and the
+current measured state using feedback, under practical constraints such as bounded actuation
+and finite sampling.
+
+\subsection{Deviation Variable}
+
+Let
+\[
+\delta(t) \in \mathbb{R}^n
+\]
+denote the \textbf{engineering deviation} (error) between a desired reference state and the
+current measured state of the plant.
+The deviation variable is defined entirely at the engineering level and has no meaning
+beyond control error.
+Typical examples include position error, velocity error, attitude error, tracking error,
+and numerical residuals.
+
+\subsection{Control Objective}
+
+The primary control objective is classical:
+\[
+\delta(t) \rightarrow 0 \quad \text{as} \quad t \rightarrow \infty,
+\]
+or, in discrete-time implementations,
+\[
+\|\delta_{k+1}\| < \|\delta_k\|
+\]
+under nominal operating conditions.
+Secondary objectives may include bounded overshoot, smooth actuator behavior,
+robustness to measurement noise, and graceful behavior under saturation.
+
+\subsection{Plant Assumptions}
+
+The plant is assumed to satisfy the following minimal conditions:
+\begin{itemize}
+\item deviations are measurable or estimable,
+\item control inputs influence deviation evolution,
+\item actuation is bounded,
+\item sampling is finite.
+\end{itemize}
+
+No explicit plant model is required by the method, and no system identification procedure
+is assumed.
+ECT is therefore model-free in the sense that the control law does not depend on an
+identified state-space or input-output model of the plant.
+
+\subsection{Absence of Structural Semantics}
+
+The deviation variable $\delta$ is \textbf{not}:
+\begin{itemize}
+\item a structural deformation,
+\item a memory variable,
+\item a viability indicator,
+\item a life or survival measure.
+\end{itemize}
+
+No irreversible dynamics, collapse behavior, or existential semantics are implied or modeled.
+This separation is intentional and fundamental: the theory presented here is purely an
+engineering control method operating on deviation variables.
+
+\subsection{Scope of Applicability}
+
+Engineering Control Theory applies to systems where a meaningful deviation variable can be
+defined and measured or estimated, including mechanical and electromechanical systems,
+robotic platforms, UAVs and mobile robots, industrial automation, and numerical or
+software-controlled processes.
+The method does not claim universality and does not replace domain-specific safety analysis,
+certification requirements, or dedicated fault-tolerance mechanisms.
+
+\subsection{Summary}
+
+Engineering Control Theory operates on measurable deviation variables and targets classical
+stabilization and regulation objectives under bounded actuation and finite sampling.
+It assumes an externally defined plant and engineering-level semantics only, without
+introducing structural-life concepts or normative axioms.
+
+% -------------------------------------------------
+\section{FXI--$\Delta$--E Control Architecture}
+
+Engineering Control Theory is based on a structured nonlinear control loop
+referred to as the \textbf{FXI--$\Delta$--E control architecture}.
+The architecture defines a deterministic sequence of deviation transformations
+and contraction operations that produce a control command without relying on
+explicit plant models or dynamic cancellation.
+
+\subsection{Architectural Overview}
+
+At each control update step $k$, the measured engineering deviation
+$\delta_k \in \mathbb{R}^n$ is processed through a fixed sequence of operators:
+
+\[
+\delta_k
+\;\xrightarrow{\,F\,}\;
+F(\delta_k)
+\;\xrightarrow{\,E\,}\;
+E(F(\delta_k))
+\;\xrightarrow{\,F^{-1}\,}\;
+F^{-1}(E(F(\delta_k)))
+\;\xrightarrow{\,G\,}\;
+u_k
+\]
+
+where:
+\begin{itemize}
+\item $\delta_k$ is the measured deviation at update step $k$,
+\item $F$ is a deviation embedding operator,
+\item $E$ is a contraction operator,
+\item $F^{-1}$ maps the contracted deviation back to the control domain,
+\item $G$ generates the actuator command $u_k$.
+\end{itemize}
+
+The control loop is evaluated once per update step and produces
+a single control output.
+No internal controller state or temporal memory is required by the core architecture.
+
+\subsection{Design Rationale}
+
+The FXI--$\Delta$--E architecture is motivated by the principle that
+stabilization can be achieved through geometric contraction of deviation
+rather than through explicit cancellation of plant dynamics.
+Instead of forcing the controlled system to follow a prescribed model,
+the controller reshapes the deviation space such that repeated contraction
+naturally reduces error magnitude.
+
+This approach offers several advantages:
+\begin{itemize}
+\item reduced dependence on accurate plant models,
+\item robustness to parametric uncertainty and nonlinear behavior,
+\item clear separation between deviation shaping and actuation,
+\item explicit support for nonlinear control mappings.
+\end{itemize}
+
+The architecture emphasizes structural simplicity and predictable behavior
+over optimality or aggressive compensation.
+
+\subsection{Determinism and Locality}
+
+The FXI--$\Delta$--E control law is deterministic, memoryless, and local.
+The control output at step $k$ is given by
+
+\[
+u_k = G\!\left(F^{-1}\!\left(E(F(\delta_k))\right)\right),
+\]
+
+and depends only on the current deviation measurement.
+No integration, prediction, state estimation, or history accumulation
+is required by the controller.
+
+This locality simplifies both implementation and analysis
+and makes the method suitable for real-time and embedded systems.
+
+\subsection{Absence of Explicit Plant Inversion}
+
+The FXI--$\Delta$--E architecture does not require:
+\begin{itemize}
+\item explicit plant models,
+\item state-space linearization,
+\item Jacobian computation or inversion,
+\item feedback linearization or dynamic cancellation.
+\end{itemize}
+
+Any implicit compensation arises from contraction in the transformed
+deviation space rather than from cancellation of plant dynamics.
+As a result, the controller remains applicable even when the internal
+physics of the plant are unknown or only partially characterized.
+
+\subsection{Discrete-Time Interpretation}
+
+All practical implementations of the FXI--$\Delta$--E architecture
+operate in discrete time.
+The control loop is evaluated at discrete update steps $k$,
+producing a sequence of control commands $u_k$
+based on measured deviations $\delta_k$.
+
+Continuous-time notation is used in this paper for conceptual clarity only.
+It does not imply continuous execution or continuous-time stability guarantees.
+All convergence and stability statements are therefore understood
+in the sampled-data, discrete-time sense,
+subject to sampling rate, actuator dynamics,
+and implementation constraints.
+
+\subsection{Architectural Scope}
+
+The FXI--$\Delta$--E control architecture defines:
+\begin{itemize}
+\item the structure of deviation processing,
+\item the separation of embedding, contraction, and actuation,
+\item the source of stabilizing behavior,
+\item the generation of bounded control commands.
+\end{itemize}
+
+It does not prescribe specific operator forms.
+Concrete realizations of the operators $F$, $E$, $F^{-1}$, and $G$
+are application-dependent and are discussed in subsequent sections.
+
+% -------------------------------------------------
+\section{Deviation Embedding Operator $F$}
+
+The deviation embedding operator $F$ maps the raw engineering deviation
+into a transformed space in which contraction and control shaping
+are easier to apply.
+Formally,
+\[
+F : \mathbb{R}^n \rightarrow \mathbb{R}^n .
+\]
+The operator $F$ does not perform control by itself.
+Its role is purely geometric: to reshape the deviation space prior to contraction.
+
+\subsection{Purpose of the Embedding}
+
+The primary purpose of the embedding operator is to modify the geometry of the
+deviation space in a controlled and predictable manner.
+Typical objectives include smoothing large deviations, regularizing nonlinear
+regions, introducing asymmetry when required, and aligning deviation geometry
+with actuator capabilities or physical constraints.
+
+By operating on deviation variables rather than on plant states,
+the operator $F$ remains independent of the underlying system dynamics.
+This separation allows deviation shaping to be designed without reference
+to a specific plant model.
+
+\subsection{Admissibility Conditions}
+
+An admissible embedding operator $F$ must satisfy the following conditions
+over its effective operating domain:
+\begin{itemize}
+\item continuity,
+\item monotonicity with respect to $\|\delta\|$,
+\item bounded output for bounded input,
+\item invertibility on the operating range.
+\end{itemize}
+
+These conditions ensure that subsequent contraction and inverse mapping
+do not introduce ambiguity, instability, or amplification.
+Invertibility is required only on the range of deviations encountered in practice,
+not necessarily over the entire domain $\mathbb{R}^n$.
+
+\subsection{Typical Forms of $F$}
+
+Common realizations of the embedding operator include:
+\begin{itemize}
+\item identity mapping,
+\[
+F(\delta) = \delta,
+\]
+\item smooth saturation functions such as
+\[
+F(\delta) = \tanh(\delta),
+\]
+\item soft-sign or polynomial shaping functions,
+\item asymmetric nonlinear maps reflecting actuator or system asymmetries.
+\end{itemize}
+
+The choice of embedding is application-dependent and reflects engineering
+constraints rather than theoretical necessity.
+Different components of a multi-dimensional deviation vector may employ
+different embedding functions.
+
+\subsection{Role in Nonlinear Control}
+
+By embedding the deviation into a shaped space,
+the operator $F$ allows contraction to act more uniformly across a wide range
+of operating conditions.
+This reduces excessive control effort for large deviations
+and improves smoothness and noise tolerance near the origin.
+
+Importantly, the embedding operator does not encode stabilization logic.
+All stabilizing behavior is delegated to the contraction operator $E$.
+
+\subsection{Separation from Contraction}
+
+The embedding operator $F$ does not enforce contraction:
+\[
+\|F(\delta)\| \not< \|\delta\| \quad \text{in general}.
+\]
+Contraction is enforced exclusively by the operator $E$.
+This separation enables independent tuning of deviation shaping and
+stabilization strength, simplifies reasoning about convergence,
+and supports modular controller design.
+
+\subsection{Summary}
+
+The deviation embedding operator $F$ reshapes deviation geometry without
+introducing control intent.
+It prepares the deviation for contraction, introduces controlled nonlinearity,
+and remains bounded and invertible over the operating range.
+It constitutes the first stage of the FXI--$\Delta$--E control architecture.
+
+
+% -------------------------------------------------
+\section{Contraction Operator $E$}
+
+The contraction operator $E$ is the core stabilizing element of the
+FXI--$\Delta$--E control architecture.
+It enforces reduction of deviation magnitude in the embedded space,
+independently of the plant dynamics or any explicit system model.
+Formally,
+\[
+E : \mathbb{R}^n \rightarrow \mathbb{R}^n .
+\]
+
+\subsection{Role of Contraction}
+
+The primary role of the contraction operator is to ensure systematic reduction
+of deviation magnitude under repeated application.
+Within the operating region, the operator must satisfy
+\[
+\|E(x)\| < \|x\| \quad \text{for} \quad x \neq 0 .
+\]
+When such a condition holds, repeated evaluation of the control loop
+drives the deviation toward smaller magnitudes, producing stabilizing behavior.
+
+Unlike classical approaches that rely on cancellation of plant dynamics,
+stabilization in ECT arises directly from contraction of deviation geometry.
+
+\subsection{Admissibility Conditions}
+
+An admissible contraction operator $E$ must satisfy the following conditions:
+\begin{itemize}
+\item continuity over the operating domain,
+\item monotonicity with respect to $\|x\|$,
+\item non-expansiveness,
+\[
+\|E(x)\| \le \|x\|,
+\]
+\item strict contraction in a neighborhood of the origin.
+\end{itemize}
+
+These conditions ensure convergence under repeated application
+in the absence of dominating disturbances or saturation effects.
+
+\subsection{Linear Contraction}
+
+The simplest realization of a contraction operator is linear:
+\[
+E(x) = kx, \quad 0 < k < 1 .
+\]
+This form corresponds to proportional feedback applied in the embedded
+deviation space and provides clear, predictable convergence behavior.
+Linear contraction is often sufficient for systems with moderate nonlinearities
+and well-behaved actuation.
+
+\subsection{Nonlinear Contraction}
+
+More general contraction operators may be nonlinear.
+Examples include:
+\begin{itemize}
+\item saturation-based contraction,
+\item norm-dependent scaling,
+\item smooth dead-zone contraction near the origin.
+\end{itemize}
+
+Nonlinear contraction allows strong reduction of large deviations
+while maintaining gentle behavior near the origin.
+This improves robustness to noise and avoids excessive control effort.
+
+\subsection{Sign Preservation}
+
+For deviation components where direction is meaningful,
+the contraction operator must preserve sign:
+\[
+\operatorname{sign}(E(x)) = \operatorname{sign}(x).
+\]
+If contraction is applied only to magnitude,
+sign restoration must be handled explicitly to avoid control inversion.
+
+\subsection{Independence from Plant Dynamics}
+
+The contraction operator operates purely on deviation geometry.
+It does not encode plant dynamics, inverse models,
+or compensation terms.
+Stability emerges from contraction itself,
+not from cancellation of plant behavior.
+
+This independence is a defining characteristic of the FXI--$\Delta$--E approach.
+
+\subsection{Summary}
+
+The contraction operator $E$ enforces deviation reduction and constitutes
+the primary stabilizing mechanism of the control architecture.
+It may be linear or nonlinear, must be non-expansive and locally contractive,
+and operates independently of the underlying plant dynamics.
+Its properties define the convergence behavior of the control loop.
+
+
+% -------------------------------------------------
+\section{Inverse Mapping Operator $F^{-1}$}
+
+The inverse mapping operator $F^{-1}$ transforms the contracted deviation
+from the embedded space back into the original deviation domain.
+Formally,
+\[
+F^{-1} : \mathbb{R}^n \rightarrow \mathbb{R}^n .
+\]
+The purpose of this operator is not exact reconstruction of the original
+deviation, but preservation of deviation geometry after contraction
+so that actuator commands can be generated consistently.
+
+\subsection{Role of the Inverse Mapping}
+
+After contraction is applied in the embedded space,
+the resulting deviation must be expressed in a form compatible with
+control output generation.
+The operator $F^{-1}$ performs this transformation,
+ensuring that the contracted deviation remains interpretable
+in the control domain.
+
+The inverse mapping completes the geometric contraction cycle
+initiated by the embedding operator $F$.
+
+\subsection{Exact and Approximate Inversion}
+
+Exact analytical inversion of $F$ is desirable but not required.
+Acceptable realizations of $F^{-1}$ include:
+\begin{itemize}
+\item exact analytical inverses,
+\item approximate inverses valid over the operating range,
+\item piecewise-defined inverse mappings,
+\item numerically implemented inverses.
+\end{itemize}
+
+The key requirement is preservation of monotonic correspondence
+between embedded and original deviation magnitudes.
+Perfect bijectivity is not necessary as long as inversion does not
+introduce ambiguity or amplification.
+
+\subsection{Admissibility Conditions}
+
+An admissible inverse mapping operator $F^{-1}$ must satisfy:
+\begin{itemize}
+\item continuity over the operating domain,
+\item monotonic correspondence with the embedding operator $F$,
+\item bounded output for bounded input.
+\end{itemize}
+
+The inverse mapping must not amplify deviations produced by contraction,
+as this would undermine the stabilizing effect of the operator $E$.
+
+\subsection{Interaction with Nonlinear Embeddings}
+
+For nonlinear embeddings such as saturation or soft-limiting functions,
+the inverse mapping may only approximately undo the shaping introduced by $F$.
+In such cases, the objective of $F^{-1}$ is to preserve direction
+and relative magnitude of the deviation while respecting actuator constraints.
+
+Near the origin, the inverse mapping should remain well-behaved
+and should not introduce discontinuities or excessive sensitivity.
+
+\subsection{Practical Considerations}
+
+In practical implementations, numerical stability takes precedence
+over analytical exactness.
+Lookup tables, polynomial approximations, or simplified inverse mappings
+are acceptable provided admissibility conditions are respected.
+
+In some implementations, the inverse mapping may be fused with
+the output operator $G$ without altering the conceptual architecture.
+
+\subsection{Summary}
+
+The inverse mapping operator $F^{-1}$ converts the contracted deviation
+back into the control domain.
+It need not be an exact inverse of $F$, but must preserve monotonicity
+and boundedness.
+By completing the geometric contraction cycle, it enables consistent
+generation of actuator commands within the FXI--$\Delta$--E architecture.
+
+% -------------------------------------------------
+\section{Control Output Operator $G$}
+
+The control output operator $G$ maps the contracted deviation,
+expressed in the control domain, into an actuator command.
+Formally,
+\[
+G : \mathbb{R}^n \rightarrow \mathbb{R}^m ,
+\]
+where $m$ denotes the number of control outputs.
+The operator $G$ constitutes the final stage of the FXI--$\Delta$--E
+control architecture and interfaces directly with the physical or
+numerical actuators of the system.
+
+\subsection{Actuator Interface Role}
+
+The primary role of the output operator is to translate deviation
+information into actionable control signals.
+This translation may include scaling, saturation, rate limiting,
+or unit conversion, depending on actuator characteristics.
+
+Importantly, $G$ does not introduce stabilization.
+All stabilizing behavior is achieved by the contraction operator $E$.
+The output operator is therefore intentionally simple and deterministic.
+
+\subsection{Admissibility Conditions}
+
+An admissible control output operator $G$ must satisfy:
+\begin{itemize}
+\item continuity over the operating range,
+\item bounded output consistent with actuator limits,
+\item monotonic response with respect to deviation magnitude.
+\end{itemize}
+
+The operator must not amplify deviations in a manner that
+negates the contraction achieved by preceding stages.
+
+\subsection{Linear Output Mapping}
+
+The simplest realization of the output operator is linear scaling:
+\[
+G(x) = Kx,
+\]
+where $K$ is a constant gain matrix or scalar.
+Linear output mappings are sufficient for many engineering applications
+and provide predictable actuator behavior.
+
+\subsection{Saturation and Limiting}
+
+Practical actuators impose bounds on achievable control outputs.
+The output operator $G$ is the appropriate location for enforcing
+such constraints:
+\[
+G(x) = \operatorname{sat}(Kx),
+\]
+where $\operatorname{sat}(\cdot)$ denotes a saturation function.
+
+Separating saturation from contraction simplifies analysis and prevents
+unintended interaction between stabilizing logic and actuator limits.
+
+\subsection{Separation from Stabilization}
+
+The output operator must not enforce convergence.
+If contraction is introduced at this stage, the logical structure of
+the control architecture becomes ambiguous.
+By confining stabilization to the operator $E$,
+the FXI--$\Delta$--E architecture preserves clear functional separation
+and modularity.
+
+\subsection{Determinism and Memorylessness}
+
+The operator $G$ is memoryless and deterministic.
+The control command produced at each update step depends only on the
+current contracted deviation.
+No internal state, filtering, or temporal integration is required.
+
+\subsection{Summary}
+
+The control output operator $G$ converts contracted deviation into
+bounded actuator commands.
+It enforces actuator constraints and scaling without introducing
+stabilization logic.
+Its simplicity and determinism complete the FXI--$\Delta$--E control
+architecture and enable reliable integration with real-world systems.
+
+% -------------------------------------------------
+\section{Stability Intuition}
+
+Stability in Engineering Control Theory arises from geometric contraction
+of the deviation variable rather than from explicit modeling or cancellation
+of plant dynamics.
+This section provides an intuitive explanation of why the FXI--$\Delta$--E
+architecture produces stabilizing behavior under admissible operator choices.
+
+\subsection{Contraction-Based Convergence}
+
+Consider the composite mapping
+\[
+T(\delta) = F^{-1}\!\left(E(F(\delta))\right).
+\]
+If the contraction operator $E$ satisfies strict contraction in a neighborhood
+of the origin and the embedding operators $F$ and $F^{-1}$ preserve monotonicity
+and boundedness, then the composite mapping $T$ inherits contraction properties
+over the operating range.
+
+Under repeated application at discrete update steps,
+\[
+\delta_{k+1} = T(\delta_k),
+\]
+the deviation magnitude decreases monotonically,
+leading to convergence toward the origin.
+Stability is therefore a direct consequence of geometric contraction
+in deviation space.
+
+\subsection{Discrete-Time Interpretation}
+
+The FXI--$\Delta$--E architecture is inherently discrete-time.
+All convergence statements are understood in the sampled-data sense,
+where stability corresponds to monotonic reduction of deviation
+between successive update steps.
+
+Unlike continuous-time Lyapunov analyses,
+ECT does not require construction of a global energy function.
+Instead, stability is assessed through contraction properties
+of the discrete mapping applied at each control step.
+
+\subsection{Local Versus Global Behavior}
+
+Contraction need only be guaranteed locally,
+within the practical operating region of the system.
+Global convergence over the entire state space is not required
+and is often unnecessary in engineering applications.
+
+As long as the contraction condition holds in the region
+where the system operates, practical stabilization is achieved.
+Outside this region, saturation or bounded behavior is handled
+by the output operator $G$.
+
+\subsection{Effect of Noise and Disturbances}
+
+Measurement noise and external disturbances introduce perturbations
+into the deviation variable.
+Because the control law does not include derivative or integral terms,
+noise is not amplified through differentiation or accumulation.
+
+As long as disturbance magnitudes remain smaller than the contraction
+effect imposed by $E$, the deviation remains bounded
+and converges to a neighborhood of the origin.
+The size of this neighborhood depends on noise level,
+sampling rate, and contraction strength.
+
+\subsection{Comparison with Classical Control}
+
+In classical PID control, stability is achieved through a combination
+of proportional, integral, and derivative actions,
+often tuned through trial and error.
+In contrast, ECT achieves stabilization through explicit contraction
+without relying on integration or differentiation.
+
+This leads to simpler tuning, reduced sensitivity to noise,
+and predictable convergence behavior.
+The absence of internal controller state further simplifies
+implementation and analysis.
+
+\subsection{Summary}
+
+Stability in the FXI--$\Delta$--E architecture emerges from repeated
+geometric contraction of the deviation variable in discrete time.
+By enforcing contraction independently of plant dynamics,
+the method achieves robust and predictable stabilization
+under practical engineering constraints.
+
+% -------------------------------------------------
+\section{Noise, Saturation, and Robustness}
+
+Practical control systems operate under measurement noise,
+finite actuator limits, and unmodeled disturbances.
+The FXI--$\Delta$--E control architecture addresses these constraints
+explicitly through structural separation of contraction, inversion,
+and output generation, rather than through compensatory dynamics.
+
+\subsection{Measurement Noise}
+
+Measurement noise enters the control loop through the deviation variable
+$\delta$.
+Because the FXI--$\Delta$--E architecture does not employ derivative terms,
+noise is not amplified by differentiation.
+Likewise, the absence of integral action prevents accumulation of noise
+over time.
+
+The contraction operator $E$ reduces deviation magnitude at each update step,
+which implicitly attenuates the effect of bounded noise.
+As a result, the closed-loop system converges to a bounded neighborhood
+of the origin whose size is determined by noise amplitude,
+sampling rate, and contraction strength.
+
+\subsection{Actuator Saturation}
+
+Actuator saturation is handled exclusively by the output operator $G$.
+By isolating saturation effects from the contraction mechanism,
+the architecture avoids interference between stabilization logic
+and physical constraints.
+
+When saturation occurs, contraction in deviation space continues to act,
+although convergence may slow or temporarily stall.
+Once the system re-enters the admissible operating range,
+normal contraction behavior resumes without instability.
+
+\subsection{Robustness to Model Uncertainty}
+
+Because the control law does not depend on a plant model,
+uncertainty in system parameters does not directly affect controller structure.
+Robustness arises from the fact that stabilization is achieved through
+deviation contraction rather than through cancellation of uncertain dynamics.
+
+As long as control inputs influence deviation evolution
+in a consistent direction, the FXI--$\Delta$--E method remains effective.
+This property makes the architecture suitable for systems with
+poorly characterized or time-varying dynamics.
+
+\subsection{Boundedness and Practical Stability}
+
+In the presence of noise, disturbances, and saturation,
+exact convergence to zero deviation may not be achievable.
+Instead, the system exhibits practical stability,
+converging to a bounded region around the origin.
+
+The size of this region can be reduced by:
+\begin{itemize}
+\item increasing contraction strength within admissible limits,
+\item improving measurement quality,
+\item increasing update rate,
+\item refining embedding and output mappings.
+\end{itemize}
+
+\subsection{Summary}
+
+The FXI--$\Delta$--E control architecture exhibits inherent robustness
+to noise, saturation, and model uncertainty.
+By separating stabilization from actuation constraints
+and avoiding noise-amplifying operations,
+the method achieves predictable bounded behavior
+under realistic engineering conditions.
+
+% -------------------------------------------------
+\section{Implementation Considerations}
+
+The FXI--$\Delta$--E control architecture is designed with direct
+implementability as a primary objective.
+Its structure emphasizes computational simplicity, determinism,
+and clear separation of concerns, making it suitable for real-time
+and embedded applications.
+
+\subsection{Computational Simplicity}
+
+Each control update consists of a fixed sequence of algebraic operations:
+embedding, contraction, inverse mapping, and output generation.
+No matrix factorization, optimization, integration, or differentiation
+is required by the core control law.
+
+The computational cost per update is therefore low and predictable.
+This enables implementation on resource-constrained platforms
+such as microcontrollers and real-time embedded processors.
+
+\subsection{Discrete-Time Execution}
+
+The FXI--$\Delta$--E controller is evaluated at discrete update steps.
+The update rate is selected based on sensing, actuation,
+and computational constraints of the target system.
+
+Unlike continuous-time controllers that rely on implicit dynamics,
+ECT explicitly operates in discrete time.
+As a result, controller behavior is transparent with respect to
+sampling rate and scheduling, and no hidden continuous assumptions
+are introduced.
+
+\subsection{Parameter Selection}
+
+Controller behavior is primarily governed by the contraction operator $E$.
+In linear realizations, the contraction gain determines the rate of
+deviation reduction.
+Stronger contraction yields faster convergence but may increase
+sensitivity to noise or saturation.
+
+Embedding and output operators are selected based on engineering
+constraints such as actuator limits, expected deviation range,
+and noise characteristics.
+Parameter tuning is therefore intuitive and localized to specific
+operators rather than distributed across coupled dynamics.
+
+\subsection{Multi-Dimensional Deviations}
+
+For vector-valued deviations, operators $F$, $E$, $F^{-1}$, and $G$
+may be applied component-wise or using structured mappings.
+Different components may employ different contraction strengths
+or embedding functions, allowing heterogeneous behavior within
+a single controller.
+
+Coupling between components, if required, is introduced explicitly
+through operator design rather than implicitly through plant models.
+
+\subsection{Example Applications}
+
+The FXI--$\Delta$--E architecture is applicable to a wide range of
+engineering problems, including:
+\begin{itemize}
+\item electromechanical actuation and servo control,
+\item robotic positioning and motion regulation,
+\item unmanned aerial vehicle stabilization,
+\item industrial automation and process control,
+\item numerical stabilization in software systems.
+\end{itemize}
+
+In each case, the controller operates on measurable deviation variables
+and produces bounded actuator commands without requiring internal
+knowledge of plant dynamics.
+
+\subsection{Summary}
+
+Implementation of the FXI--$\Delta$--E control architecture is straightforward,
+computationally efficient, and deterministic.
+Its discrete-time formulation, minimal parameterization,
+and modular operator structure make it suitable for practical
+engineering systems across a wide range of domains.
+
+% -------------------------------------------------
+\section{Reference Implementation}
+
+To demonstrate feasibility and reproducibility of the proposed theory,
+a reference software implementation of the FXI--$\Delta$--E control architecture
+has been developed.
+The implementation is provided as a compact C++ software development kit
+(ECT-SDK v1.0.0) and serves as a verification artifact rather than
+a general-purpose control framework.
+
+\subsection{Purpose of the Reference Implementation}
+
+The primary purpose of the reference implementation is to:
+\begin{itemize}
+\item confirm that the FXI--$\Delta$--E architecture can be implemented
+      directly and unambiguously,
+\item demonstrate deterministic execution and contraction behavior,
+\item provide a concrete realization suitable for numerical testing,
+\item support reproducibility of the theoretical results.
+\end{itemize}
+
+The implementation is intentionally minimal and avoids auxiliary features
+such as adaptive logic, state estimation, or safety supervision.
+
+\subsection{Architectural Correspondence}
+
+The software implementation mirrors the theoretical structure exactly.
+Each operator in the FXI--$\Delta$--E architecture is represented
+as an explicit, stateless component:
+\begin{itemize}
+\item deviation embedding operator $F$,
+\item contraction operator $E$,
+\item inverse mapping operator $F^{-1}$,
+\item control output operator $G$.
+\end{itemize}
+
+A single controller object composes these operators
+and evaluates the control law as a one-step deterministic mapping.
+No hidden state or temporal coupling is introduced.
+
+\subsection{Validation Through Numerical Tests}
+
+The reference implementation has been validated using numerical tests
+that evaluate deviation convergence under repeated application
+of the control loop.
+These tests demonstrate monotonic reduction of deviation magnitude
+for admissible operator choices, consistent with the theoretical
+contraction-based stability arguments.
+
+Example scenarios include stabilization of scalar deviation loops
+and simple simulated actuation systems.
+The results confirm predictable convergence without oscillation
+or divergence.
+
+\subsection{Distribution and Access}
+
+The reference implementation is distributed as a restricted-access
+software artifact via Zenodo.
+It is provided for verification and reproducibility purposes only
+and is not intended as a production-ready control system.
+
+The theoretical formulation presented in this paper constitutes
+the canonical description of the FXI--$\Delta$--E method.
+The software implementation exists solely to demonstrate that
+the theory can be translated into working code without ambiguity.
+
+\subsection{Summary}
+
+The reference implementation validates the practical realizability
+of Engineering Control Theory.
+By closely following the theoretical architecture and exhibiting
+the expected contraction behavior in numerical tests,
+it supports the applicability of the FXI--$\Delta$--E framework
+as an engineering control method.
+
+% -------------------------------------------------
+\section{Limitations and Future Work}
+
+Engineering Control Theory is intentionally limited in scope.
+The FXI--$\Delta$--E architecture is designed as a local,
+deviation-based control method and does not aim to address
+all aspects of control system design.
+This section outlines known limitations and directions
+for future development.
+
+\subsection{Known Limitations}
+
+The FXI--$\Delta$--E method does not provide:
+\begin{itemize}
+\item global stability guarantees over arbitrary state spaces,
+\item formal safety certification or fault-tolerance mechanisms,
+\item explicit handling of irreversible system failure,
+\item optimality with respect to cost or energy criteria,
+\item automatic adaptation or learning.
+\end{itemize}
+
+Stability is local and practical, defined with respect to admissible
+operator choices, bounded disturbances, and finite sampling.
+The method assumes that control inputs influence deviation evolution
+in a consistent direction; systems violating this assumption
+fall outside the intended domain of applicability.
+
+\subsection{Absence of Structural or Normative Semantics}
+
+Engineering Control Theory deliberately avoids structural-life,
+viability, or normative semantics.
+It does not attempt to characterize system survival,
+degradation, or irreversible collapse.
+Such concepts, while relevant in other theoretical frameworks,
+are explicitly excluded from the present theory.
+
+This separation ensures that ECT remains a purely engineering-level
+control method focused on deviation regulation.
+
+\subsection{Future Directions}
+
+Several extensions of the FXI--$\Delta$--E framework are possible:
+\begin{itemize}
+\item adaptive or state-dependent contraction operators,
+\item nonlinear and asymmetric embeddings tailored to specific actuators,
+\item multi-rate and event-triggered update schemes,
+\item structured coupling of multi-dimensional deviations,
+\item formal bounds on convergence regions under noise and saturation.
+\end{itemize}
+
+These directions aim to extend applicability while preserving
+the core principles of determinism, locality, and contraction-based
+stabilization.
+
+\subsection{Summary}
+
+The limitations of Engineering Control Theory reflect deliberate design
+choices rather than deficiencies.
+By restricting scope to deviation-based stabilization,
+the FXI--$\Delta$--E architecture achieves clarity, robustness,
+and practical implementability.
+Future work may extend the framework while maintaining this
+fundamental separation of concerns.
+
+% -------------------------------------------------
+\section{Conclusion}
+
+This paper presented Engineering Control Theory (ECT) as an applied,
+deviation-based approach to control system design, formalized through
+the FXI--$\Delta$--E control architecture.
+The method operates directly on measurable engineering deviations
+and achieves stabilization through geometric contraction rather than
+explicit modeling or cancellation of plant dynamics.
+
+The FXI--$\Delta$--E architecture was introduced as a deterministic,
+memoryless, discrete-time mapping composed of four conceptually
+separated operators: deviation embedding, contraction, inverse mapping,
+and control output generation.
+This separation clarifies the source of stabilizing behavior and
+supports modular, transparent controller design.
+
+Stability intuition was provided in terms of repeated contraction
+of deviation space, highlighting the absence of integrators,
+derivatives, and internal controller state.
+Robustness to noise, saturation, and model uncertainty arises naturally
+from this structure and from the explicit handling of actuator constraints.
+
+Implementation considerations demonstrated that the method is
+computationally simple, suitable for embedded and real-time systems,
+and applicable across a wide range of practical engineering domains.
+A reference C++ implementation was introduced to confirm feasibility
+and reproducibility of the theoretical formulation.
+
+Engineering Control Theory does not seek to replace classical control
+methods in all contexts, nor does it introduce structural, normative,
+or ontological semantics.
+Instead, it provides a focused and practical framework for deviation
+regulation under realistic constraints.
+
+By clearly separating stabilization from plant modeling and by grounding
+control behavior in geometric contraction, the FXI--$\Delta$--E method
+offers a transparent and implementable alternative for a class of
+engineering control problems where simplicity, robustness, and
+predictability are primary concerns.
+
+\end{document}
